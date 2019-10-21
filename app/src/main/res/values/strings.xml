@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">RenkontreAndroid</string>
+    <string name="Et_mail">E-mail</string>
+    <string name="Et_password">password</string>
+    <string name="Titre_inscription">Sign Up</string>
+    <string name="bt_signUp">Sign up</string>
+    <string name="bt_return">return</string>
+    <string name="Titre_connexion">Sign in</string>
+    <string name="bt_inscription">sign Up</string>
+    <string name="bt_signIn" >Sign In</string>
 </resources>

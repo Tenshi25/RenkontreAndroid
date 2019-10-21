@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">RenkontreAndroid</string>
+    <string name="Et_mail">E-mail</string>
+    <string name="Et_password">mot de passe</string>
+    <string name="Titre_connexion">Page de connexion</string>
+    <string name="Titre_inscription">Page d\'inscription</string>
+    <string name="bt_inscription">S\'inscrire</string>
+    <string name="bt_return">Retour</string>
+    <string name="bt_signIn">Se connecter</string>
+    <string name="bt_signUp">Formulaire d\'inscription</string>
+</resources>
