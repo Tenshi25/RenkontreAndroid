@@ -1,0 +1,70 @@
+{
+
+  "project_info": {
+    "project_number": "553614773816",
+    "firebase_url": "https://ccm2-android-firebase2019.firebaseio.com",
+    "project_id": "ccm2-android-firebase2019",
+    "storage_bucket": "ccm2-android-firebase2019.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553614773816:android:daf0b14a732759145c60cd",
+        "android_client_info": {
+          "package_name": "master.ccm.firebase2019ccm2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "553614773816-sfgnbvljks2h34696repfaj4h3lka5m4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7tuE5fIVAwBfWiDqdOWw7MAORBFZNUzk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "553614773816-sfgnbvljks2h34696repfaj4h3lka5m4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553614773816:android:c6d8b6daeee7719e5c60cd",
+        "android_client_info": {
+          "package_name": "master.ccm.renkontreandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "553614773816-sfgnbvljks2h34696repfaj4h3lka5m4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7tuE5fIVAwBfWiDqdOWw7MAORBFZNUzk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "553614773816-sfgnbvljks2h34696repfaj4h3lka5m4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
