@@ -2,6 +2,8 @@ package master.ccm.renkontreandroid;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import master.ccm.renkontreandroid.Entity.User;
+import master.ccm.renkontreandroid.Manager.UserDBManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,9 +42,17 @@ public class Inscription_activity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser currentUser) {
-        Intent intent = new Intent(this, Accueil_activity.class);
-        startActivity(intent);
-        finish();
+        if (currentUser != null) {
+            // Name, email address, and profile photo Url
+            User user = new User();
+
+            user.setLastName(currentUser.getDisplayName()) ;
+            user.setMail(currentUser.getEmail());
+            user.setPhone(currentUser.getPhoneNumber());
+            UserDBManager userBDManager = new UserDBManager();
+            userBDManager.VerifUserExistBeforeInsert(user,this);
+        }
+
     }
     private void inscriptionFirebase(String email,String password)
     {
@@ -79,5 +89,14 @@ public class Inscription_activity extends AppCompatActivity {
         String email = champEmail.getText().toString();
         String password = champMDP.getText().toString();
         inscriptionFirebase(email,password);
+    }
+
+    public void RegisterSucess(String id, String name) {
+        Intent intent = new Intent(this, Accueil_activity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void RegistertFail() {
     }
 }

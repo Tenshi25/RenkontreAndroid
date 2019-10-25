@@ -2,6 +2,8 @@ package master.ccm.renkontreandroid;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import master.ccm.renkontreandroid.Entity.User;
+import master.ccm.renkontreandroid.Manager.UserDBManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,9 +46,17 @@ public class Connexion_activity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser currentUser) {
-        Intent intent = new Intent(this, Accueil_activity.class);
-        startActivity(intent);
-        finish();
+        if (currentUser != null) {
+            // Name, email address, and profile photo Url
+            User user = new User();
+
+            user.setLastName(currentUser.getDisplayName()) ;
+            user.setMail(currentUser.getEmail());
+            user.setPhone(currentUser.getPhoneNumber());
+            UserDBManager userBDManager = new UserDBManager();
+            userBDManager.ConnectUser(user,this);
+        }
+
     }
     private void connexionFirebase(String email,String password){
         mAuth.signInWithEmailAndPassword(email, password)
@@ -80,5 +90,16 @@ public class Connexion_activity extends AppCompatActivity {
         String email = champEmail.getText().toString();
         String password = champMDP.getText().toString();
         connexionFirebase(email,password);
+    }
+
+    public void ConnectionFailed() {
+    }
+
+    public void ConnectSucess(String id, String username) {
+        Intent intent = new Intent(this, Accueil_activity.class);
+        Toast.makeText(Connexion_activity.this, "Bienvenue"+username,
+                Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+        finish();
     }
 }

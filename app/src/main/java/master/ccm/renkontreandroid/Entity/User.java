@@ -1,32 +1,44 @@
-package master.ccm.entity;
+package master.ccm.renkontreandroid.Entity;
 
 public class User {
-    public String username;
-    public String password;
+    public String lastName;
+    public String name;
+    public String mail;
+    public String phone;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password= password;
+    public String getLastName() {
+        return lastName;
     }
 
-    public String getUsername() {
-        return username;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getName() {
+        return name;
     }
 
-    public String getpassword() {
-        return password;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setpassword(String
-             password) {
-        this.password= password;
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
