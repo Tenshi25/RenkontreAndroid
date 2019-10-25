@@ -18,6 +18,7 @@ import master.ccm.renkontreandroid.Connexion_activity;
 import master.ccm.renkontreandroid.Entity.CurrentUser;
 import master.ccm.renkontreandroid.Entity.User;
 import master.ccm.renkontreandroid.Inscription_activity;
+import master.ccm.renkontreandroid.Profile_activity;
 
 public class UserDBManager {
     private FirebaseFirestore database = FirebaseFirestore.getInstance();
@@ -101,10 +102,18 @@ public class UserDBManager {
                     DocumentSnapshot result = task.getResult().getDocuments().get(0);
                     Log.d("succes affichage", result.getId() + " => " + result.get("mail"));
                     CurrentUser.getInstance().setId(result.getId());
-                    CurrentUser.getInstance().setMail(result.get("mail").toString());
-                    CurrentUser.getInstance().setName(result.get("name").toString());
-                    CurrentUser.getInstance().setLastName(result.get("lastName").toString());
-                    CurrentUser.getInstance().setPhone(result.get("phone").toString());
+                    if(result.get("mail")!=null){
+                        CurrentUser.getInstance().setMail(result.get("mail").toString());
+                    }
+                    if(result.get("name")!=null){
+                        CurrentUser.getInstance().setName(result.get("name").toString());
+                    }
+                    if(result.get("lastName")!=null){
+                        CurrentUser.getInstance().setLastName(result.get("lastName").toString());
+                    }
+                    if(result.get("phone")!=null){
+                        CurrentUser.getInstance().setPhone(result.get("phone").toString());
+                    }
                     context.ConnectSucess(result.getId(),result.get("mail").toString());
                 } else {
                     context.ConnectionFailed();
@@ -117,4 +126,27 @@ public class UserDBManager {
         UserDBManager.userExist = p_userExist;
 
     }
+    public void updateUser(User newUser,final Profile_activity context){
+            DocumentReference userRef = database.collection("User").document(CurrentUser.getInstance().getId());
+            Log.i("updateUser",""+CurrentUser.getInstance().getId()+""+ newUser.getName()+" / "+newUser.getLastName()+" / "+newUser.getPhone()+" / ");
+            Map<String,Object> updates = new HashMap<>();
+
+            updates.put("lastName", newUser.getLastName());
+            updates.put("name", newUser.getName());
+            updates.put("mail", CurrentUser.getInstance().getMail());
+            updates.put("phone", newUser.getPhone());
+
+            userRef.update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                context.updateUserSuccess();
+                            }else{
+                                context.updateUserFailed();
+                            }
+                        }
+
+                });
+            }
 }

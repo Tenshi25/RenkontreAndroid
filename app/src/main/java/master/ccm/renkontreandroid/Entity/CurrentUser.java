@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public class CurrentUser {
 
     private String id = "0";
-    private String lastName = "NULL";
-    private String name = "NULL";
-    private String mail = "NULL";
-    private String phone = "NULL";
+    private String lastName = null;
+    private String name = null;
+    private String mail = null;
+    private String phone = null;
 
 
 

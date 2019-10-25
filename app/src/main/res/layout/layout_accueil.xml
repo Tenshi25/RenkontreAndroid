@@ -10,9 +10,17 @@
         android:id="@+id/id_mail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="171dp"
-        android:layout_marginEnd="167dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="176dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        layout="@layout/menu_home"
+        android:layout_width="352dp"
+        android:layout_height="409dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="122dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
