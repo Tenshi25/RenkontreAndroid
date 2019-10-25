@@ -2,7 +2,9 @@ package master.ccm.renkontreandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,5 +29,13 @@ public class Accueil_activity extends AppCompatActivity {
             String email = user.getEmail();
             tv_mail.setText(email);
         }
+
+
+    }
+    public void onClickProfile(View view){
+        Intent intent = new Intent(this, Profile_activity.class);
+        startActivity(intent);
+        finish();
+
     }
 }

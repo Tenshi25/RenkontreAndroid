@@ -7,5 +7,12 @@
     <string name="bt_return">return</string>
     <string name="Titre_connexion">Sign in</string>
     <string name="bt_inscription">sign Up</string>
-    <string name="bt_signIn" >Sign In</string>
+    <string name="bt_signIn">Sign In</string>
+    <string name="Et_lastname">lastname</string>
+    <string name="Et_name">name</string>
+    <string name="Et_phone">phone</string>
+    <string name="bt_update">Update</string>
+    <string name="title_Menu">Main Menu</string>
+    <string name="bt_to_profile" >Profile</string>
+    <string name="title_form_profil">Your profile</string>
 </resources>
