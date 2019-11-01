@@ -13,9 +13,17 @@
         android:textStyle="bold" />
 
     <Button
+        android:id="@+id/bt_listFriendsEnemy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickFriendsEnemyList"
+        android:text="@string/bt_List_friends_ennemy" />
+
+    <Button
         android:id="@+id/bt_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClickProfile"
         android:text="@string/bt_to_profile" />
+
 </LinearLayout>

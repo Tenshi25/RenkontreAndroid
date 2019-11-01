@@ -38,4 +38,11 @@ public class Accueil_activity extends AppCompatActivity {
         finish();
 
     }
+    public void onClickFriendsEnemyList(View view){
+        Intent intent = new Intent(this, ListFriendsEnemy_activity.class);
+        startActivity(intent);
+        finish();
+
+    }
+
 }

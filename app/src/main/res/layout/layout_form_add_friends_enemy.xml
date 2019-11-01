@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".Form_add_friends_enemy_activity">
 
+    <include
+        layout="@layout/form_add_friend_enemy"
+        android:layout_width="301dp"
+        android:layout_height="274dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="92dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

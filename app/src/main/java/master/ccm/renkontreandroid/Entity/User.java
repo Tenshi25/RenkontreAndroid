@@ -1,13 +1,22 @@
 package master.ccm.renkontreandroid.Entity;
 
 public class User {
-    public String lastName;
-    public String name;
-    public String mail;
-    public String phone;
+    private String id;
+    private String lastName;
+    private String name;
+    private String mail;
+    private String phone;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    }
+
+    public User(String id, String lastName, String name, String mail, String phone) {
+        this.id = id;
+        this.lastName = lastName;
+        this.name = name;
+        this.mail = mail;
+        this.phone = phone;
     }
 
     public String getLastName() {
@@ -41,4 +50,13 @@ public class User {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }
