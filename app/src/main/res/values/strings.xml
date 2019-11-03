@@ -15,4 +15,5 @@
     <string name="title_Menu">Main Menu</string>
     <string name="bt_to_profile" >Profile</string>
     <string name="title_form_profil">Your profile</string>
+    <string name="bt_to_map">Map</string>
 </resources>
