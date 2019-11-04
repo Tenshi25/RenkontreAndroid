@@ -15,8 +15,6 @@ import master.ccm.renkontreandroid.services.GpsService;
 
 public class MapActivity extends AppCompatActivity {
 
-    private BroadcastReceiver broadcastReceiver;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,35 +37,11 @@ public class MapActivity extends AppCompatActivity {
     protected void onResume()
     {
         super.onResume();
-
-        if (broadcastReceiver == null) {
-            broadcastReceiver = new BroadcastReceiver()
-            {
-                @Override
-                public void onReceive(Context context, Intent intent)
-                {
-                    double longitude = intent.getDoubleExtra("longitude", 1);
-                    double latitude = intent.getDoubleExtra("latitude", 1);
-
-                    String lat = String.valueOf(latitude);
-                    String lng = String.valueOf(longitude);
-
-                    Toast.makeText(MapActivity.this, lat, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(MapActivity.this, lng, Toast.LENGTH_SHORT).show();
-                }
-            };
-        }
-        registerReceiver(broadcastReceiver,new IntentFilter("location_update"));
     }
 
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
-
-        if (broadcastReceiver != null)
-        {
-            unregisterReceiver(broadcastReceiver);
-        }
     }
 }

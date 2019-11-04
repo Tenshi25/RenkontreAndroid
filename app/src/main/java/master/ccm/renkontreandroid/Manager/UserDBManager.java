@@ -1,5 +1,6 @@
 package master.ccm.renkontreandroid.Manager;
 
+import android.location.Location;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -10,12 +11,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
 import master.ccm.renkontreandroid.Connexion_activity;
 import master.ccm.renkontreandroid.Entity.CurrentUser;
+import master.ccm.renkontreandroid.Entity.GeoLocationPosition;
 import master.ccm.renkontreandroid.Entity.User;
 import master.ccm.renkontreandroid.Inscription_activity;
 import master.ccm.renkontreandroid.Profile_activity;
@@ -149,4 +154,38 @@ public class UserDBManager {
 
                 });
             }
+
+
+    public void updateUserToAddPositionService(Location location){
+        final CurrentUser currentUser = CurrentUser.getInstance();
+
+        final GeoLocationPosition geoLocationPosition = new GeoLocationPosition();
+        geoLocationPosition.setDateRegistration(new Date());
+        geoLocationPosition.setLatitude(location.getLatitude());
+        geoLocationPosition.setLongitude(location.getLongitude());
+
+        DocumentReference userRef = database.collection("User").document(currentUser.getId());
+        Map<String,Object> updates = new HashMap<>();
+
+        updates.put("lastName", currentUser.getLastName());
+        updates.put("name", currentUser.getName());
+        updates.put("mail", currentUser.getMail());
+        updates.put("phone", currentUser.getPhone());
+        updates.put("geolocation.latitude", geoLocationPosition.getLatitude());
+        updates.put("geolocation.longitude", geoLocationPosition.getLongitude());
+        updates.put("geolocation.date", geoLocationPosition.getDateRegistration());
+
+        userRef.update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    currentUser.setGeoLocationPosition(geoLocationPosition);
+                }else{
+                    // nothing
+                }
+            }
+
+        });
+    }
 }

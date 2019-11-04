@@ -9,8 +9,7 @@ public class CurrentUser {
     private String name = null;
     private String mail = null;
     private String phone = null;
-
-
+    private GeoLocationPosition geoLocationPosition = null;
 
     private static CurrentUser sui = null;
 
@@ -69,5 +68,13 @@ public class CurrentUser {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public GeoLocationPosition getGeoLocationPosition() {
+        return geoLocationPosition;
+    }
+
+    public void setGeoLocationPosition(GeoLocationPosition geoLocationPosition) {
+        this.geoLocationPosition = geoLocationPosition;
     }
 }
