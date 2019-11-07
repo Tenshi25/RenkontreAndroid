@@ -18,4 +18,11 @@
         android:layout_height="wrap_content"
         android:onClick="onClickProfile"
         android:text="@string/bt_to_profile" />
+
+    <Button
+        android:id="@+id/bt_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClickMap"
+        android:text="@string/bt_to_map" />
 </LinearLayout>
