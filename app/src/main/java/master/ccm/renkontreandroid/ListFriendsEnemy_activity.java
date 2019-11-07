@@ -53,7 +53,10 @@ public class ListFriendsEnemy_activity extends AppCompatActivity {
 
 
     }
-    public void RemplirListView(List<User> p_userList) {
+    public void RemplirListView() {
+        ArrayList<User> p_userList = new ArrayList<>();
+        p_userList.addAll(CurrentUser.getInstance().getFriendslist());
+        p_userList.addAll(CurrentUser.getInstance().getEnemylist());
         Log.i("logNomTailleListeUser", "taille : " + p_userList.size());
         userList = p_userList;
         int cpt = 0;
@@ -121,7 +124,7 @@ public class ListFriendsEnemy_activity extends AppCompatActivity {
         }
         if (CurrentUser.getInstance().getFriendslist().size() !=0 || CurrentUser.getInstance().getEnemylist().size() !=0)
         {
-            RemplirListView(userList);
+            RemplirListView();
 
         }
     }

@@ -135,10 +135,10 @@ public class UserDBManager {
                     if(result.get("phone")!=null){
                         CurrentUser.getInstance().setPhone(result.get("phone").toString());
                     }
+                    /*
                     if(result.get("friendsIdlist")!=null) {
                         //for ( afrind in result.get("friendsList"))
                         Log.d("friendsIdlist", "friendsIdlist : "+result.get("friendsIdlist").toString());
-                        ArrayList<String> listfriendsIds = (ArrayList<String>) result.get("friendsList");
                         Log.d("friendsIdlist", "friendsIdlist : "+listfriendsIds);
                         CurrentUser.getInstance().getFriendsIdlist().addAll(listfriendsIds);
                         //Toast.makeText(context,result.get("friendsList")[1].toString() , Toast.LENGTH_SHORT).show();
@@ -146,7 +146,8 @@ public class UserDBManager {
                     }
                     if(result.get("enemyList")!=null){
                         //CurrentUser.getInstance().setEnemylist((ArrayList<User>) result.get("enemyList").);
-                    }
+                    }*/
+                    selectAllFriendsEnemyID();
                     context.ConnectSucess(result.getId(),result.get("mail").toString());
                 } else {
                     context.ConnectionFailed();
@@ -182,7 +183,7 @@ public class UserDBManager {
 
                 });
             }
-
+/*
     public void updateUserFriendsEnemy( final Form_add_friends_enemy_activity context){
         CurrentUser currentUser =CurrentUser.getInstance();
 
@@ -201,7 +202,8 @@ public class UserDBManager {
             }
 
         });
-    }
+    }*/
+    /*
     public void selectBeforeUpdateUserFriendsEnemy(final User user, final String friendOrEnemy, final Form_add_friends_enemy_activity context) {
         database.collection("User").whereEqualTo("mail",user.getMail()).get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -230,7 +232,8 @@ public class UserDBManager {
 
 
 
-    }
+    }*/
+
     public void selectAllFriendsEnemy( final ListFriendsEnemy_activity context) {
 
         // recuperation de tous les amis
@@ -250,13 +253,21 @@ public class UserDBManager {
                             Log.d("User", "DocumentSnapshot data: " + document.getData());
                             User newFriendUser = new User();
                             newFriendUser.setId(task.getResult().getId());
-                            newFriendUser.setName(task.getResult().get("lame").toString());
-                            newFriendUser.setLastName(task.getResult().get("lastName").toString());
-                            newFriendUser.setMail(task.getResult().get("mail").toString());
-                            newFriendUser.setPhone(task.getResult().get("phone").toString());
-
+                            if(task.getResult().get("name")!=null){
+                                newFriendUser.setName(task.getResult().get("name").toString());
+                            }
+                            if(task.getResult().get("lastName")!=null){
+                                newFriendUser.setLastName(task.getResult().get("lastName").toString());
+                            }
+                            if(task.getResult().get("mail")!=null){
+                                newFriendUser.setMail(task.getResult().get("mail").toString());
+                            }
+                            if(task.getResult().get("phone")!=null){
+                                newFriendUser.setPhone(task.getResult().get("phone").toString());
+                            }
                             CurrentUser.getInstance().getFriendslist().add(newFriendUser);
-                            Log.d("FriendUser","friendlist : "+CurrentUser.getInstance().getFriendslist() );
+                            Log.d("FriendUser","friendlist : "+CurrentUser.getInstance().getFriendslist().size() );
+                            context.RemplirListView();
                         } else {
                             Log.d("User", "No such document");
                         }
@@ -298,6 +309,90 @@ public class UserDBManager {
             });
         }
         context.SelectFriendsEnemyFinished();
+
+    }
+    public void BeforeAddUserLink(final String mailUserFriendEnemy, final String friendOrEnemy, final Form_add_friends_enemy_activity context) {
+        database.collection("User").whereEqualTo("mail",mailUserFriendEnemy).get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.getResult().size() >= 1) {
+                    Log.i("task.getResult()",""+task.getResult().size());
+                    Log.i("selectUtilisateur","L'utilisateurExite");
+                    verifUserLinkExists(task.getResult().getDocuments().get(0).getId(),friendOrEnemy,context);
+
+
+                }else{
+                    context.userNotExist();
+
+                }
+
+            }
+        });
+    }
+    public void verifUserLinkExists(final String idUserFriendEnemy, final String friendOrEnemy, final Form_add_friends_enemy_activity context) {
+        database.collection("LinkUser").whereEqualTo("idUserA",CurrentUser.getInstance().getId()).whereEqualTo("idUserB",idUserFriendEnemy).get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.getResult().size() >= 1) {
+                    Log.i("task.getResult()",""+task.getResult().size());
+                    Log.i("LinkUser","Le lien existe déja");
+
+                }else{
+                    AddUserLink(idUserFriendEnemy,friendOrEnemy,context);
+
+                }
+
+            }
+        });
+    }
+
+    public void AddUserLink(String idUserFriendEnemy, String friendOrEnemy, final Form_add_friends_enemy_activity context) {
+
+
+
+            Map<String, Object> linkMap = new HashMap<>();
+            linkMap.put("idUserA", CurrentUser.getInstance().getId() );
+            linkMap.put("idUserB", idUserFriendEnemy);
+            linkMap.put("friendOrEnemy", friendOrEnemy);
+
+
+            database.collection("LinkUser").add(linkMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentReference> task) {
+                    if (task.isSuccessful()){
+                        Log.i("AddUser","L'utilisateur à été ajouter");
+                        selectAllFriendsEnemyID();
+                        context.AddLinkSucess();
+                    }
+                }
+            });
+    }
+    public void selectAllFriendsEnemyID() {
+
+        // recuperation de tous les id des amis et enemie
+
+        database.collection("LinkUser")
+                .whereEqualTo("idUserA", CurrentUser.getInstance().getId())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d("linkUser : ", document.getId() + " => " + document.getData());
+                                if(document.getData().get("friendOrEnemy").toString().equals("Friend")){
+                                    CurrentUser.getInstance().getFriendsIdlist().add(document.getData().get("idUserB").toString());
+                                }
+                                if(document.getData().get("friendOrEnemy").toString().equals("Enemy")){
+                                    CurrentUser.getInstance().getEnemyIdlist().add(document.getData().get("idUserB").toString());
+                                }
+                            }
+                        } else {
+                            Log.d("linkUser :", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
 
     }
 

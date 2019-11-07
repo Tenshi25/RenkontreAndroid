@@ -40,10 +40,11 @@ public class Form_add_friends_enemy_activity  extends AppCompatActivity implemen
     }
     public void onClickAdd(View view) {
         UserDBManager userDBManager = new UserDBManager();
-        User newFriendEnemy = new User();
+        /*User newFriendEnemy = new User();
         newFriendEnemy.setMail(et_friendEnemyMail.getText().toString());
-        
-        userDBManager.selectBeforeUpdateUserFriendsEnemy(newFriendEnemy,friendOrEnemy,this);
+        */
+        //userDBManager.selectBeforeUpdateUserFriendsEnemy(newFriendEnemy,friendOrEnemy,this);
+        userDBManager.BeforeAddUserLink(et_friendEnemyMail.getText().toString(),friendOrEnemy,this);
     }
 
     public void onClickReturn(View view) {
@@ -79,5 +80,9 @@ public class Form_add_friends_enemy_activity  extends AppCompatActivity implemen
     public void userExist(String id) {
 
         Toast.makeText(this,"L'utilisateur est inscrit",Toast.LENGTH_SHORT).show();
+    }
+
+    public void AddLinkSucess() {
+        Toast.makeText(this,"votre liste à été mise à jour",Toast.LENGTH_LONG).show();
     }
 }
