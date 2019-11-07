@@ -10,10 +10,11 @@ public class CurrentUser {
     private String mail = null;
     private String phone = null;
 
-    private ArrayList<User> friendslist = new ArrayList<User>();
-    private ArrayList<User> enemylist = new ArrayList<User>();
+    private ArrayList<String> friendsIdlist = new ArrayList<>();
+    private ArrayList<String> enemyIdlist = new ArrayList<>();
 
-
+    private ArrayList<User> friendslist = new ArrayList<>();
+    private ArrayList<User> enemylist = new ArrayList<>();
 
 
     private static CurrentUser sui = null;
@@ -38,14 +39,14 @@ public class CurrentUser {
 
     }
 
-    public CurrentUser(String id, String lastName, String name, String mail, String phone, ArrayList<User> friendslist, ArrayList<User> enemylist) {
+    public CurrentUser(String id, String lastName, String name, String mail, String phone, ArrayList<String> friendsIdlist, ArrayList<String> enemyIdlist) {
         this.id = id;
         this.lastName = lastName;
         this.name = name;
         this.mail = mail;
         this.phone = phone;
-        this.friendslist = friendslist;
-        this.enemylist = enemylist;
+        this.friendsIdlist = friendsIdlist;
+        this.enemyIdlist = enemyIdlist;
     }
 
     public String getLastName() {
@@ -78,6 +79,22 @@ public class CurrentUser {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public ArrayList<String> getFriendsIdlist() {
+        return friendsIdlist;
+    }
+
+    public void setFriendsIdlist(ArrayList<String> friendsIdlist) {
+        this.friendsIdlist = friendsIdlist;
+    }
+
+    public ArrayList<String> getEnemyIdlist() {
+        return enemyIdlist;
+    }
+
+    public void setEnemyIdlist(ArrayList<String> enemyIdlist) {
+        this.enemyIdlist = enemyIdlist;
     }
 
     public ArrayList<User> getFriendslist() {

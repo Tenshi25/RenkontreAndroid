@@ -4,16 +4,19 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -22,6 +25,7 @@ import master.ccm.renkontreandroid.Entity.CurrentUser;
 import master.ccm.renkontreandroid.Entity.User;
 import master.ccm.renkontreandroid.Form_add_friends_enemy_activity;
 import master.ccm.renkontreandroid.Inscription_activity;
+import master.ccm.renkontreandroid.ListFriendsEnemy_activity;
 import master.ccm.renkontreandroid.Profile_activity;
 
 public class UserDBManager {
@@ -96,7 +100,20 @@ public class UserDBManager {
     }
 
     public void ConnectUser (final User user, final Connexion_activity context)
-    {{
+    {
+        //ca ne marche pas
+        /*
+        DocumentReference userRef = database.collection("User").document(CurrentUser.getInstance().getId());
+        userRef.get(Source.DEFAULT).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                CurrentUser currentUser = CurrentUser.getInstance();
+                 currentUser = documentSnapshot.toObject(CurrentUser.class);
+                context.ConnectSucess(currentUser.getId(),currentUser.getMail());
+            }
+
+
+        });*/
 
         database.collection("User").whereEqualTo("mail",user.getMail()).get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -118,9 +135,14 @@ public class UserDBManager {
                     if(result.get("phone")!=null){
                         CurrentUser.getInstance().setPhone(result.get("phone").toString());
                     }
-                    if(result.get("friendsList")!=null){
-                        Toast.makeText(context,result.get("friendsList").toString(),Toast.LENGTH_SHORT).show();
-                        //CurrentUser.getInstance().setFriendslist(result.get("friendsList"));
+                    if(result.get("friendsIdlist")!=null) {
+                        //for ( afrind in result.get("friendsList"))
+                        Log.d("friendsIdlist", "friendsIdlist : "+result.get("friendsIdlist").toString());
+                        ArrayList<String> listfriendsIds = (ArrayList<String>) result.get("friendsList");
+                        Log.d("friendsIdlist", "friendsIdlist : "+listfriendsIds);
+                        CurrentUser.getInstance().getFriendsIdlist().addAll(listfriendsIds);
+                        //Toast.makeText(context,result.get("friendsList")[1].toString() , Toast.LENGTH_SHORT).show();
+
                     }
                     if(result.get("enemyList")!=null){
                         //CurrentUser.getInstance().setEnemylist((ArrayList<User>) result.get("enemyList").);
@@ -132,7 +154,7 @@ public class UserDBManager {
                 }
             }
         });
-    }}
+    }
     private static void setUserExist(boolean p_userExist) {
         UserDBManager.userExist = p_userExist;
 
@@ -189,12 +211,12 @@ public class UserDBManager {
                     Log.i("selectUtilisateur","L'utilisateurExite");
 
                     context.userExist(task.getResult().getDocuments().get(0).getId());
-                    User newFriendOrEnemy =new User();
-                    newFriendOrEnemy.setId(task.getResult().getDocuments().get(0).getId());
+
+
                     if (friendOrEnemy.equals("Enemy")){
-                        CurrentUser.getInstance().getEnemylist().add(newFriendOrEnemy);
+                        CurrentUser.getInstance().getEnemyIdlist().add(task.getResult().getDocuments().get(0).getId());
                     }else{
-                        CurrentUser.getInstance().getFriendslist().add(newFriendOrEnemy);
+                        CurrentUser.getInstance().getFriendsIdlist().add(task.getResult().getDocuments().get(0).getId());
                     }
                     updateUserFriendsEnemy(context);
 
@@ -207,6 +229,75 @@ public class UserDBManager {
         });
 
 
+
+    }
+    public void selectAllFriendsEnemy( final ListFriendsEnemy_activity context) {
+
+        // recuperation de tous les amis
+        CurrentUser.getInstance().getFriendslist().clear();
+        Log.d("User", "listuser: " +CurrentUser.getInstance().getFriendsIdlist());
+        for (String idUser : CurrentUser.getInstance().getFriendsIdlist())
+        {
+            Log.d("User", "iduser: " + idUser);
+            DocumentReference docRef = database.collection("User").document(idUser);
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+
+                            Log.d("User", "DocumentSnapshot data: " + document.getData());
+                            User newFriendUser = new User();
+                            newFriendUser.setId(task.getResult().getId());
+                            newFriendUser.setName(task.getResult().get("lame").toString());
+                            newFriendUser.setLastName(task.getResult().get("lastName").toString());
+                            newFriendUser.setMail(task.getResult().get("mail").toString());
+                            newFriendUser.setPhone(task.getResult().get("phone").toString());
+
+                            CurrentUser.getInstance().getFriendslist().add(newFriendUser);
+                            Log.d("FriendUser","friendlist : "+CurrentUser.getInstance().getFriendslist() );
+                        } else {
+                            Log.d("User", "No such document");
+                        }
+                    } else {
+                        Log.d("User", "get failed with ", task.getException());
+                    }
+                }
+            });
+        }
+
+        // recuperation de tous les ennemi
+        CurrentUser.getInstance().getEnemylist().clear();
+        for (String idUser : CurrentUser.getInstance().getEnemyIdlist())
+        {
+            DocumentReference docRef = database.collection("User").document(idUser);
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+
+                            Log.d("User", "DocumentSnapshot data: " + document.getData());
+                            User newEnemyUser = new User();
+                            newEnemyUser.setId(task.getResult().getId());
+                            newEnemyUser.setName(task.getResult().get("lame").toString());
+                            newEnemyUser.setLastName(task.getResult().get("lastName").toString());
+                            newEnemyUser.setMail(task.getResult().get("mail").toString());
+                            newEnemyUser.setPhone(task.getResult().get("phone").toString());
+
+                            CurrentUser.getInstance().getEnemylist().add(newEnemyUser);
+                        } else {
+                            Log.d("User", "No such document");
+                        }
+                    } else {
+                        Log.d("User", "get failed with ", task.getException());
+                    }
+                }
+            });
+        }
+        context.SelectFriendsEnemyFinished();
 
     }
 

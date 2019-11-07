@@ -6,16 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ListFriendsEnemy_activity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
     <Button
         android:id="@+id/bt_return_listFriends_enemy"
         android:layout_width="wrap_content"
@@ -37,4 +27,11 @@
         android:text="@string/bt_add_friend_enemie"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ListView
+        android:id="@+id/id_listView_friend_enemy"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="76dp"
+        tools:layout_editor_absoluteY="86dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
