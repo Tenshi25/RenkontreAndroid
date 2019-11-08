@@ -6,6 +6,7 @@ public class User {
     private String name;
     private String mail;
     private String phone;
+    private String FriendEnemy;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -59,4 +60,11 @@ public class User {
         this.id = id;
     }
 
+    public String getFriendEnemy() {
+        return FriendEnemy;
+    }
+
+    public void setFriendEnemy(String friendEnemy) {
+        FriendEnemy = friendEnemy;
+    }
 }

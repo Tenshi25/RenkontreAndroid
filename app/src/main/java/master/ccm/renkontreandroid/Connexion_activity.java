@@ -59,25 +59,36 @@ public class Connexion_activity extends AppCompatActivity {
 
     }
     private void connexionFirebase(String email,String password){
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("connexion Firebase", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("connexion Firebase", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(Connexion_activity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+        if(email.length()!=0   )
+        {
+            if(password.length()!=0   )
+            {
+            mAuth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d("connexion Firebase", "signInWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                updateUI(user);
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.w("connexion Firebase", "signInWithEmail:failure", task.getException());
+                                Toast.makeText(Connexion_activity.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
+                    });
+            }else{
+                Toast.makeText(Connexion_activity.this, "veillez saisir votre mot de passe",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            Toast.makeText(Connexion_activity.this, "veillez saisir votre email",
+                    Toast.LENGTH_SHORT).show();
+        }
 
-                        // ...
-                    }
-                });
 
     }
     public void onClickInscription(View view) {

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,11 +54,11 @@ public class ListFriendsEnemy_activity extends AppCompatActivity {
 
 
     }
-    public void RemplirListView() {
-        ArrayList<User> p_userList = new ArrayList<>();
-        p_userList.addAll(CurrentUser.getInstance().getFriendslist());
-        p_userList.addAll(CurrentUser.getInstance().getEnemylist());
+    public void RemplirListView(ArrayList<User> p_userList) {
+
         Log.i("logNomTailleListeUser", "taille : " + p_userList.size());
+        Log.i("logNomTailleListeUser", "tailleE : " +CurrentUser.getInstance().getEnemylist().size());
+        Log.i("logNomTailleListeUser", "tailleF : " +CurrentUser.getInstance().getFriendslist().size());
         userList = p_userList;
         int cpt = 0;
         tabUser = new User[p_userList.size()];
@@ -83,6 +84,13 @@ public class ListFriendsEnemy_activity extends AppCompatActivity {
                 }
                 TextView mailUser = (TextView) convertView.findViewById(R.id.tv_mail_list_friend_enemy);
                 mailUser.setText(aUser.getMail());
+                ImageView imageFriendEnemy = (ImageView) convertView.findViewById(R.id.iv_friend_enemy);
+                if (aUser.getFriendEnemy().equals("Enemy")){
+                    imageFriendEnemy.setImageResource(R.drawable.ennemi);
+                }
+                if (aUser.getFriendEnemy().equals("Friend")){
+                    imageFriendEnemy.setImageResource(R.drawable.amis);
+                }
                 Log.i("logNomUser","logNameUser : "+aUser.getName()+" mail : "+aUser.getMail());
                 //
                 vraiPosition++;
@@ -108,7 +116,7 @@ public class ListFriendsEnemy_activity extends AppCompatActivity {
     }
 
     public void SelectFriendsEnemyFinished() {
-        userList = new ArrayList<User>();
+        ArrayList<User> userList = new ArrayList<User>();
         Log.i("List", "enemyList : "+ CurrentUser.getInstance().getEnemylist());
 
         Log.i("List", "friendList : "+ CurrentUser.getInstance().getFriendslist());
@@ -124,8 +132,35 @@ public class ListFriendsEnemy_activity extends AppCompatActivity {
         }
         if (CurrentUser.getInstance().getFriendslist().size() !=0 || CurrentUser.getInstance().getEnemylist().size() !=0)
         {
-            RemplirListView();
+            RemplirListView(userList);
 
         }
+
     }
+    public void onClickDeleteLink(View view) {
+        View parentRow = (View) view.getParent();
+        ListView listView = (ListView) parentRow.getParent();
+        final int position = listView.getPositionForView(parentRow);
+        User userASupprimer = userList.get(position);
+        UserDBManager userDBManager =  new UserDBManager();
+        userDBManager.selectLinkBeforeDelete(userASupprimer.getId(),this);
+        userList.remove(userASupprimer);
+        if (CurrentUser.getInstance().getFriendslist().contains(userASupprimer)){
+            CurrentUser.getInstance().getFriendslist().remove(userASupprimer);
+        }else{
+            if(CurrentUser.getInstance().getEnemylist().contains(userASupprimer)){
+                CurrentUser.getInstance().getEnemylist().remove(userASupprimer);
+            }
+        }
+
+        userDBManager.selectAllFriendsEnemy(this);
+    }
+
+    public void addFriend(User newEnemyUser) {
+        CurrentUser.getInstance().getEnemylist().add(newEnemyUser);
+    }
+    public void addEnemy(User newEnemyUser) {
+        CurrentUser.getInstance().getFriendslist().add(newEnemyUser);
+    }
+
 }
