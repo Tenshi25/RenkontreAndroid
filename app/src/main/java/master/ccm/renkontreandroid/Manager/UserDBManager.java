@@ -119,7 +119,18 @@ public class UserDBManager {
                     if(result.get("phone")!=null){
                         CurrentUser.getInstance().setPhone(result.get("phone").toString());
                     }
-                    context.ConnectSucess(result.getId(),result.get("mail").toString());
+
+                    if(result.get("geolocation.longitude")!=null && result.get("geolocation.latitude")!=null){
+                        GeoLocationPosition geoLocationPosition = new GeoLocationPosition();
+                        geoLocationPosition.setLatitude(Double.valueOf(String.valueOf(result.get("geolocation.latitude"))));
+                        geoLocationPosition.setLongitude(Double.valueOf(String.valueOf(result.get("geolocation.longitude"))));
+                        if (result.get("geolocation.date")!=null){
+                            geoLocationPosition.setDateRegistration(new Date(String.valueOf(result.get("geolocation.date"))));
+                        }
+                        CurrentUser.getInstance().setGeoLocationPosition(geoLocationPosition);
+                    }
+
+                        context.ConnectSucess(result.getId(),result.get("mail").toString());
                 } else {
                     context.ConnectionFailed();
                     Log.w("erreur affichage", "Error getting documents.", task.getException());
