@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="master.ccm.renkontreandroid">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,10 +13,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".Form_add_friends_enemy_activity"></activity>
         <activity android:name=".ListFriendsEnemy_activity" />
+
+        <receiver
+            android:name=".services.GpsUpdateReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
+
+        <service
+            android:name=".services.GpsService"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity android:name=".Profile_activity" />
         <activity android:name=".Accueil_activity" />
+        <activity android:name=".MapActivity" />
         <activity android:name=".Inscription_activity" />
         <activity android:name=".Connexion_activity">
             <intent-filter>
@@ -21,6 +38,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAI9oxnJkiZxmBLxUBUfcCynVGIqO7y4ao" />
     </application>
 
 </manifest>

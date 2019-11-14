@@ -39,6 +39,7 @@ public class Accueil_activity extends AppCompatActivity {
         finish();
 
     }
+
     //vers la gestion des amis et ennemis
     public void onClickFriendsEnemyList(View view){
         Intent intent = new Intent(this, ListFriendsEnemy_activity.class);
@@ -46,5 +47,13 @@ public class Accueil_activity extends AppCompatActivity {
         finish();
 
     }
+
+
+    public void onClickMap(View view){
+        Intent intent = new Intent(this, MapActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 
 }

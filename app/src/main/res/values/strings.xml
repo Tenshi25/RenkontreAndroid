@@ -15,8 +15,12 @@
     <string name="title_Menu">Main Menu</string>
     <string name="bt_to_profile">Profile</string>
     <string name="title_form_profil">Your profile</string>
+
     <string name="bt_add_friend_enemie">+</string>
     <string name="bt_List_friends_ennemy">Edit friends / enemy List</string>
     <string name="Titre_form_add_friend_enemy">Form add friend or enemy</string>
     <string name="bt_add_friend_enemy">Add</string>
+
+    <string name="bt_to_map">Map</string>
+
 </resources>

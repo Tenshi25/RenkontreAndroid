@@ -1,5 +1,6 @@
 package master.ccm.renkontreandroid.Manager;
 
+import android.location.Location;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,8 +15,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +30,7 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import master.ccm.renkontreandroid.Connexion_activity;
 import master.ccm.renkontreandroid.Entity.CurrentUser;
+import master.ccm.renkontreandroid.Entity.GeoLocationPosition;
 import master.ccm.renkontreandroid.Entity.User;
 import master.ccm.renkontreandroid.Form_add_friends_enemy_activity;
 import master.ccm.renkontreandroid.Inscription_activity;
@@ -123,8 +131,21 @@ public class UserDBManager {
                     if(result.get("phone")!=null){
                         CurrentUser.getInstance().setPhone(result.get("phone").toString());
                     }
+
                     selectAllFriendsEnemyID();
-                    context.ConnectSucess(result.getId(),result.get("mail").toString());
+                    
+                    if(result.get("geolocation.longitude")!=null && result.get("geolocation.latitude")!=null){
+                        GeoLocationPosition geoLocationPosition = new GeoLocationPosition();
+                        geoLocationPosition.setLatitude(Double.valueOf(String.valueOf(result.get("geolocation.latitude"))));
+                        geoLocationPosition.setLongitude(Double.valueOf(String.valueOf(result.get("geolocation.longitude"))));
+                        if (result.get("geolocation.date")!=null){
+                            geoLocationPosition.setDateRegistration(new Date(String.valueOf(result.get("geolocation.date"))));
+                        }
+                        CurrentUser.getInstance().setGeoLocationPosition(geoLocationPosition);
+                    }
+
+                        context.ConnectSucess(result.getId(),result.get("mail").toString());
+
                 } else {
                     context.ConnectionFailed();
                     Log.w("erreur affichage", "Error getting documents.", task.getException());
@@ -159,71 +180,12 @@ public class UserDBManager {
 
                 });
             }
+
     public void selectAllFriendsEnemy( final ListFriendsEnemy_activity context){
-
-
-
-        // recuperation de tous les ennemis
-        /*CurrentUser.getInstance().getEnemylist().clear();
-        CurrentUser.getInstance().getFriendslist().clear();
-        /*
-        ArrayList<String> allIdUser = new ArrayList<>();
-        allIdUser.addAll(CurrentUser.getInstance().getFriendsIdlist()) ;
-        allIdUser.addAll(CurrentUser.getInstance().getEnemyIdlist()) ;
-        */
-        /*
-        for (String idUser : allIdUser)
-        {
-            DocumentReference docRef = database.collection("User").document(idUser);
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-
-                            Log.d("User", "DocumentSnapshot data: " + document.getData());
-                            User newUser = new User();
-                            newUser.setId(task.getResult().getId());
-                            if (task.getResult().get("name") != null) {
-
-                                newUser.setName(task.getResult().get("name").toString());
-                            }
-                            if (task.getResult().get("lastName") != null) {
-
-                                newUser.setLastName(task.getResult().get("lastName").toString());
-                            }
-                            if (task.getResult().get("mail") != null) {
-
-                                newUser.setMail(task.getResult().get("mail").toString());
-                            }
-                            if (task.getResult().get("phone") != null) {
-
-                                newUser.setPhone(task.getResult().get("phone").toString());
-                            }
-                            //context.RemplirListView();
-                            Log.d("FriendUser","enemylist : "+CurrentUser.getInstance().getEnemylist().size() );
-
-                        } else {
-                            Log.d("User", "No such document");
-
-                        }
-                    } else {
-                        Log.d("User", "get failed with ", task.getException());
-                    }
-                }
-            });
-
-        }
-        Log.d("FriendUser","enemylist : "+CurrentUser.getInstance().getEnemylist().size() );
-        context.SelectFriendsEnemyFinished();*/
 
         CurrentUser.getInstance().getEnemylist().clear();
         CurrentUser.getInstance().getFriendslist().clear();
-/*
-        final ArrayList<String> allIdUser = new ArrayList<>();
-        allIdUser.addAll(CurrentUser.getInstance().getFriendsIdlist()) ;
-        allIdUser.addAll(CurrentUser.getInstance().getEnemyIdlist()) ;*/
+
 
         database.collection("User").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -317,56 +279,6 @@ public class UserDBManager {
 
 
     }
-    /*
-    public void selectAllFriendsBeforeselectAllEnemy( final ListFriendsEnemy_activity context) {
-
-        // recuperation de tous les amis
-        CurrentUser.getInstance().getFriendslist().clear();
-        Log.d("User", "listuser: " +CurrentUser.getInstance().getFriendsIdlist());
-        for (String idUser : CurrentUser.getInstance().getFriendsIdlist())
-        {
-            Log.d("User", "iduser: " + idUser);
-            DocumentReference docRef = database.collection("User").document(idUser);
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-
-                            Log.d("User", "DocumentSnapshot data: " + document.getData());
-                            User newFriendUser = new User();
-                            newFriendUser.setId(task.getResult().getId());
-                            if(task.getResult().get("name")!=null){
-                                newFriendUser.setName(task.getResult().get("name").toString());
-                            }
-                            if(task.getResult().get("lastName")!=null){
-                                newFriendUser.setLastName(task.getResult().get("lastName").toString());
-                            }
-                            if(task.getResult().get("mail")!=null){
-                                newFriendUser.setMail(task.getResult().get("mail").toString());
-                            }
-                            if(task.getResult().get("phone")!=null){
-                                newFriendUser.setPhone(task.getResult().get("phone").toString());
-                            }
-                            CurrentUser.getInstance().getFriendslist().add(newFriendUser);
-                            Log.d("FriendUser","friendlist : "+CurrentUser.getInstance().getFriendslist().size() );
-                            //context.RemplirListView();
-
-                        } else {
-                            Log.d("User", "No such document");
-
-                        }
-                    } else {
-                        Log.d("User", "get failed with ", task.getException());
-                    }
-                }
-            });
-        }
-        Log.d("FriendUser","friendlist : "+CurrentUser.getInstance().getFriendslist().size() );
-        selectAllEnemy(context);
-
-    }*/
     public void BeforeAddUserLink(final String mailUserFriendEnemy, final String friendOrEnemy, final Form_add_friends_enemy_activity context) {
         database.collection("User").whereEqualTo("mail",mailUserFriendEnemy).get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -486,6 +398,42 @@ public class UserDBManager {
                     }
                 });
 
+    }
+
+
+
+
+    public void updateUserToAddPositionService(Location location){
+        final CurrentUser currentUser = CurrentUser.getInstance();
+
+        final GeoLocationPosition geoLocationPosition = new GeoLocationPosition();
+        geoLocationPosition.setDateRegistration(new Date());
+        geoLocationPosition.setLatitude(location.getLatitude());
+        geoLocationPosition.setLongitude(location.getLongitude());
+
+        DocumentReference userRef = database.collection("User").document(currentUser.getId());
+        Map<String,Object> updates = new HashMap<>();
+
+        updates.put("lastName", currentUser.getLastName());
+        updates.put("name", currentUser.getName());
+        updates.put("mail", currentUser.getMail());
+        updates.put("phone", currentUser.getPhone());
+        updates.put("geolocation.latitude", geoLocationPosition.getLatitude());
+        updates.put("geolocation.longitude", geoLocationPosition.getLongitude());
+        updates.put("geolocation.date", geoLocationPosition.getDateRegistration());
+
+        userRef.update(updates).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    currentUser.setGeoLocationPosition(geoLocationPosition);
+                }else{
+                    // nothing
+                }
+            }
+
+        });
     }
 
 }

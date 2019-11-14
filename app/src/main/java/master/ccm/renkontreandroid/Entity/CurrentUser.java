@@ -10,11 +10,15 @@ public class CurrentUser {
     private String mail = null;
     private String phone = null;
 
+
     private ArrayList<String> friendsIdlist = new ArrayList<>();
     private ArrayList<String> enemyIdlist = new ArrayList<>();
 
     private ArrayList<User> friendslist = new ArrayList<>();
     private ArrayList<User> enemylist = new ArrayList<>();
+
+
+    private GeoLocationPosition geoLocationPosition = null;
 
 
     private static CurrentUser sui = null;
@@ -81,6 +85,7 @@ public class CurrentUser {
         this.phone = phone;
     }
 
+
     public ArrayList<String> getFriendsIdlist() {
         return friendsIdlist;
     }
@@ -111,5 +116,13 @@ public class CurrentUser {
 
     public void setEnemylist(ArrayList<User> enemylist) {
         this.enemylist = enemylist;
+
+    public GeoLocationPosition getGeoLocationPosition() {
+        return geoLocationPosition;
+    }
+
+    public void setGeoLocationPosition(GeoLocationPosition geoLocationPosition) {
+        this.geoLocationPosition = geoLocationPosition;
+
     }
 }
