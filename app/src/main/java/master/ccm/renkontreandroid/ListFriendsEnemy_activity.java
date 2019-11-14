@@ -145,11 +145,11 @@ public class ListFriendsEnemy_activity extends AppCompatActivity {
         UserDBManager userDBManager =  new UserDBManager();
         userDBManager.selectLinkBeforeDelete(userASupprimer.getId(),this);
         userList.remove(userASupprimer);
-        if (CurrentUser.getInstance().getFriendslist().contains(userASupprimer)){
-            CurrentUser.getInstance().getFriendslist().remove(userASupprimer);
+        if (CurrentUser.getInstance().getFriendsIdlist().contains(userASupprimer.getId())){
+            CurrentUser.getInstance().getFriendsIdlist().remove(userASupprimer.getId());
         }else{
-            if(CurrentUser.getInstance().getEnemylist().contains(userASupprimer)){
-                CurrentUser.getInstance().getEnemylist().remove(userASupprimer);
+            if(CurrentUser.getInstance().getEnemyIdlist().contains(userASupprimer.getId())){
+                CurrentUser.getInstance().getEnemyIdlist().remove(userASupprimer.getId());
             }
         }
 
