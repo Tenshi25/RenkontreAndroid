@@ -24,7 +24,7 @@ public class Accueil_activity extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            // Name, email address, and profile photo Url
+            // On test si l'utilisateur est connécté et son nom et son name
             String name = user.getDisplayName();
             String email = user.getEmail();
             tv_mail.setText(email);
@@ -32,12 +32,22 @@ public class Accueil_activity extends AppCompatActivity {
 
 
     }
+    //vers la gestion du profile
     public void onClickProfile(View view){
         Intent intent = new Intent(this, Profile_activity.class);
         startActivity(intent);
         finish();
 
     }
+
+    //vers la gestion des amis et ennemis
+    public void onClickFriendsEnemyList(View view){
+        Intent intent = new Intent(this, ListFriendsEnemy_activity.class);
+        startActivity(intent);
+        finish();
+
+    }
+
 
     public void onClickMap(View view){
         Intent intent = new Intent(this, MapActivity.class);

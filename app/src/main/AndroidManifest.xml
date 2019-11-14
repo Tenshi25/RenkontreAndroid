@@ -13,6 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".Form_add_friends_enemy_activity"></activity>
+        <activity android:name=".ListFriendsEnemy_activity" />
+
         <receiver
             android:name=".services.GpsUpdateReceiver"
             android:enabled="true"
