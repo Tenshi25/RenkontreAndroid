@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -13,14 +15,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".Form_add_friends_enemy_activity"></activity>
+        <activity android:name=".ContactPhoneActivity"></activity>
+        <activity android:name=".Form_add_friends_enemy_activity" />
         <activity android:name=".ListFriendsEnemy_activity" />
 
         <receiver
             android:name=".services.GpsUpdateReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true" />
 
         <service
             android:name=".services.GpsService"
@@ -39,7 +41,9 @@
             </intent-filter>
         </activity>
 
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAI9oxnJkiZxmBLxUBUfcCynVGIqO7y4ao" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAI9oxnJkiZxmBLxUBUfcCynVGIqO7y4ao" />
     </application>
 
 </manifest>

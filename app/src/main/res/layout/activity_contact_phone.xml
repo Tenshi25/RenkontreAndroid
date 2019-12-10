@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ContactPhoneActivity">
+
+    <Button
+        android:id="@+id/id_button_call_person"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="65dp"
+        android:layout_marginBottom="29dp"
+        android:onClick="onClickAskCallActivity"
+        android:text="Call"
+        app:layout_constraintBottom_toTopOf="@+id/id_button_contact_return"
+        app:layout_constraintEnd_toStartOf="@+id/id_button_sms_person"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_contact_identity" />
+
+    <Button
+        android:id="@+id/id_button_sms_person"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="142dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="30dp"
+        android:onClick="onClickAskSmsActivity"
+        android:text="SMS"
+        app:layout_constraintBottom_toTopOf="@+id/id_button_contact_return"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/id_button_call_person"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/id_button_contact_return"
+        android:layout_width="367dp"
+        android:layout_height="107dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginEnd="19dp"
+        android:layout_marginBottom="30dp"
+        android:onClick="onClickReturnBefore"
+        android:text="@string/bt_return"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_button_sms_person"
+        tools:text="@string/bt_return" />
+
+    <TextView
+        android:id="@+id/id_contact_identity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginBottom="88dp"
+        android:text="identity"
+        app:layout_constraintBottom_toTopOf="@+id/id_button_call_person"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

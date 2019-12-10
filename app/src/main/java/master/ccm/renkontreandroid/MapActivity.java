@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,15 +22,21 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import master.ccm.renkontreandroid.Entity.CurrentUser;
 import master.ccm.renkontreandroid.Entity.GeoLocationPosition;
 import master.ccm.renkontreandroid.Entity.User;
-import master.ccm.renkontreandroid.Manager.UserDBManager;
 import master.ccm.renkontreandroid.services.GpsService;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap maGoogleMap;
+    private ArrayList<String> contactPhoneNumbers;
+    private Map<String, String> userNumberMap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +46,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         ActivityCompat.requestPermissions(this, new String[]{
                         Manifest.permission.ACCESS_COARSE_LOCATION,
                         Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.INTERNET
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.CALL_PHONE
+
                 },
                 123);
+
+        this.userNumberMap = new HashMap<>();
+        this.contactPhoneNumbers = getAllContactNumbers();
+        this.contactPhoneNumbers.forEach(number -> Log.i("AllContacts","number :" + number));
 
         Intent i = new Intent(getApplicationContext(), GpsService.class);
 
@@ -96,7 +113,28 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         this.maGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Toast.makeText(MapActivity.this, "Arrete de maltraiter le markeur", Toast.LENGTH_SHORT).show(); }
+                if (marker.getTitle().equals("Moi")) {
+                    // do nothing
+                } else {
+                    String email = marker.getTitle().substring(marker.getTitle().indexOf("(") + 1, marker.getTitle().indexOf(")"));
+                    String phoneNumber = userNumberMap.get(email);
+                    if (phoneNumber != null) {
+                        phoneNumber = phoneNumber.replace(" ", "");
+                        Boolean isRegisteredContact = isANumberOfOwnContacts(phoneNumber);
+
+                        Intent contactIntent = new Intent(MapActivity.this, ContactPhoneActivity.class);
+                        Bundle contactContent = new Bundle();
+                        contactContent.putString("phone", phoneNumber);
+                        contactContent.putString("identity", marker.getTitle());
+                        contactIntent.putExtra("bundleContact", contactContent);
+                        startActivity(contactIntent);
+
+                        // Toast.makeText(MapActivity.this, isRegisteredContact.toString(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MapActivity.this, "Phone number not registered by user", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
         });
 
         setFriendsAndEnemiesInMap();
@@ -113,6 +151,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void addFriendToMap(User friend) {
+        this.userNumberMap.put(friend.getMail(), friend.getPhone());
+
         String titleMessage = "";
 
         if (friend.getName() != null) {
@@ -140,6 +180,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void addEnemyToMap(User enemy) {
+        this.userNumberMap.put(enemy.getMail(), enemy.getPhone());
+
         String titleMessage = "";
 
         if (enemy.getName() != null) {
@@ -163,6 +205,44 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     .title(titleMessage)
                     .icon(BitmapDescriptorFactory
                     .defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+        }
+    }
+
+    private ArrayList<String> getAllContactNumbers() {
+        ContentResolver cr = this.getContentResolver();
+        Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+        if(cursor.moveToFirst())
+        {
+            ArrayList<String> allContacts = new ArrayList<>();
+            do
+            {
+                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+
+                if(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0)
+                {
+                    Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",new String[]{ id }, null);
+                    while (pCur.moveToNext())
+                    {
+                        String contactNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        allContacts.add(contactNumber.replace(" ", ""));
+                        break;
+                    }
+                    pCur.close();
+                }
+
+            } while (cursor.moveToNext()) ;
+
+            return allContacts;
+        }
+
+        return new ArrayList<>();
+    }
+
+    private boolean isANumberOfOwnContacts(String number){
+        if (number.contains("+")){
+            return contactPhoneNumbers.contains(number);
+        } else {
+            return contactPhoneNumbers.contains(number) || contactPhoneNumbers.contains("+33"+number.substring(1));
         }
     }
 }
