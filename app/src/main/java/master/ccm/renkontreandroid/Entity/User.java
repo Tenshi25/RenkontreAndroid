@@ -7,6 +7,8 @@ public class User {
     private String mail;
     private String phone;
     private String FriendEnemy;
+    private GeoLocationPosition geoLocationPosition;
+
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -66,5 +68,13 @@ public class User {
 
     public void setFriendEnemy(String friendEnemy) {
         FriendEnemy = friendEnemy;
+    }
+
+    public GeoLocationPosition getGeoLocationPosition() {
+        return geoLocationPosition;
+    }
+
+    public void setGeoLocationPosition(GeoLocationPosition geoLocationPosition) {
+        this.geoLocationPosition = geoLocationPosition;
     }
 }

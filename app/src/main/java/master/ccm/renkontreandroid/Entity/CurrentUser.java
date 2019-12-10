@@ -117,6 +117,7 @@ public class CurrentUser {
     public void setEnemylist(ArrayList<User> enemylist) {
         this.enemylist = enemylist;
     }
+
     public GeoLocationPosition getGeoLocationPosition() {
         return geoLocationPosition;
     }

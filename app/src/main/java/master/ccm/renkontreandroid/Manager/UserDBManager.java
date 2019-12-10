@@ -221,6 +221,16 @@ public class UserDBManager {
                                         newUser.setPhone(document.get("phone").toString());
                                     }
 
+                                    if(document.get("geolocation.longitude")!=null && document.get("geolocation.latitude")!=null){
+                                        GeoLocationPosition geoLocationPosition = new GeoLocationPosition();
+                                        geoLocationPosition.setLatitude(Double.valueOf(String.valueOf(document.get("geolocation.latitude"))));
+                                        geoLocationPosition.setLongitude(Double.valueOf(String.valueOf(document.get("geolocation.longitude"))));
+                                        if (document.get("geolocation.date")!=null){
+                                            geoLocationPosition.setDateRegistration(new Date(String.valueOf(document.get("geolocation.date"))));
+                                        }
+                                        newUser.setGeoLocationPosition(geoLocationPosition);
+                                    }
+
                                     newUser.setFriendEnemy("Friend");
                                     listUsersFriend.add(newUser);
                                     Log.i("log", "User Mail:" + newUser.getMail());
@@ -254,6 +264,16 @@ public class UserDBManager {
                                     newUser.setPhone(document.get("phone").toString());
                                 }
 
+                                if(document.get("geolocation.longitude")!=null && document.get("geolocation.latitude")!=null){
+                                    GeoLocationPosition geoLocationPosition = new GeoLocationPosition();
+                                    geoLocationPosition.setLatitude(Double.valueOf(String.valueOf(document.get("geolocation.latitude"))));
+                                    geoLocationPosition.setLongitude(Double.valueOf(String.valueOf(document.get("geolocation.longitude"))));
+                                    if (document.get("geolocation.date")!=null){
+                                        geoLocationPosition.setDateRegistration(new Date(String.valueOf(document.get("geolocation.date"))));
+                                    }
+                                    newUser.setGeoLocationPosition(geoLocationPosition);
+                                }
+
                                 newUser.setFriendEnemy("Enemy");
                                 listUsersEnemy.add(newUser);
                                 Log.i("log", "User Mail:" + newUser.getMail());
@@ -266,10 +286,12 @@ public class UserDBManager {
                     CurrentUser.getInstance().getFriendslist().addAll(listUsersFriend);
                     CurrentUser.getInstance().getEnemylist().addAll(listUsersEnemy);
 
-                    ArrayList<User> listUsers = new ArrayList<>();
-                    listUsers.addAll(listUsersFriend);
-                    listUsers.addAll(listUsersEnemy);
-                    context.RemplirListView(listUsers);
+                    if (context != null) {
+                        ArrayList<User> listUsers = new ArrayList<>();
+                        listUsers.addAll(listUsersFriend);
+                        listUsers.addAll(listUsersEnemy);
+                        context.RemplirListView(listUsers);
+                    }
 
                 } else {
                     Log.w("selectAll", "Error getting documents.", task.getException());
@@ -374,6 +396,8 @@ public class UserDBManager {
                                     CurrentUser.getInstance().getEnemyIdlist().add(document.getData().get("idUserB").toString());
                                 }
                             }
+
+                            UserDBManager.this.selectAllFriendsEnemy(null);
                         } else {
                             Log.d("linkUser :", "Error getting documents: ", task.getException());
                         }
