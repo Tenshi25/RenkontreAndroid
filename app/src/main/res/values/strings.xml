@@ -22,5 +22,6 @@
     <string name="bt_add_friend_enemy">Add</string>
 
     <string name="bt_to_map">Map</string>
+    <string name="Tv_show_distance">Distance around (in Km)</string>
 
 </resources>

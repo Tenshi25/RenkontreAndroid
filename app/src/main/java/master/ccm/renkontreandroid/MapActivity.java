@@ -9,7 +9,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -29,12 +32,16 @@ import master.ccm.renkontreandroid.Entity.CurrentUser;
 import master.ccm.renkontreandroid.Entity.GeoLocationPosition;
 import master.ccm.renkontreandroid.Entity.User;
 import master.ccm.renkontreandroid.services.GpsService;
+import master.ccm.renkontreandroid.utils.GpsUtils;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap maGoogleMap;
     private ArrayList<String> contactPhoneNumbers;
     private Map<String, String> userNumberMap;
+    private Double maxDistanceInKm;
+    private EditText editTextMaxDistanceInKm;
+    private MarkerOptions myMarker;
 
 
     @Override
@@ -53,8 +60,32 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 123);
 
         this.userNumberMap = new HashMap<>();
+        this.maxDistanceInKm = 9999999.99;
+        this.editTextMaxDistanceInKm = findViewById(R.id.id_map_value_max_distance);
+        this.editTextMaxDistanceInKm.setText(this.maxDistanceInKm.toString());
         this.contactPhoneNumbers = getAllContactNumbers();
         this.contactPhoneNumbers.forEach(number -> Log.i("AllContacts","number :" + number));
+
+        this.editTextMaxDistanceInKm.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    MapActivity.this.maxDistanceInKm = Double.valueOf(String.valueOf(s));
+                    changeVisibilityMarkerInUnacceptedDistance();
+                }
+            }
+        });
 
         Intent i = new Intent(getApplicationContext(), GpsService.class);
 
@@ -87,7 +118,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if(userPosition != null && userPosition.getLatitude() != 0.0 && userPosition.getLatitude() != 0.0){
             LatLng userGeoPosition= new LatLng(userPosition.getLatitude(), userPosition.getLongitude());
             this.maGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(userGeoPosition));
-            googleMap.addMarker(new MarkerOptions().position(userGeoPosition).title("Moi"));
+            MarkerOptions myMarkerOptions = new MarkerOptions().position(userGeoPosition).title("Moi");
+            googleMap.addMarker(myMarkerOptions);
+            this.myMarker = myMarkerOptions;
         }
 
         this.maGoogleMap.getUiSettings().setZoomControlsEnabled(true);
@@ -173,9 +206,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         if (position != null) {
             LatLng userGeoPosition= new LatLng(position.getLatitude(), position.getLongitude());
-            this.maGoogleMap.addMarker(new MarkerOptions().position(userGeoPosition)
+            MarkerOptions friendMarker = new MarkerOptions().position(userGeoPosition)
                     .title(titleMessage)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+
+            if (GpsUtils.distanceInKmBetweenTwoMarker(myMarker.getPosition().latitude, myMarker.getPosition().longitude,
+                    friendMarker.getPosition().latitude, friendMarker.getPosition().longitude) <= this.maxDistanceInKm) {
+                this.maGoogleMap.addMarker(friendMarker);
+            }
         }
     }
 
@@ -200,11 +238,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Log.i("EnemyAddInMap","initialized position :"+ (position!=null));
 
         if (position != null) {
-            LatLng userGeoPosition= new LatLng(position.getLatitude(), position.getLongitude());
-            this.maGoogleMap.addMarker(new MarkerOptions().position(userGeoPosition)
+            LatLng userGeoPosition = new LatLng(position.getLatitude(), position.getLongitude());
+            MarkerOptions enemyMarker = new MarkerOptions().position(userGeoPosition)
                     .title(titleMessage)
-                    .icon(BitmapDescriptorFactory
-                    .defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+
+            if (GpsUtils.distanceInKmBetweenTwoMarker(myMarker.getPosition().latitude, myMarker.getPosition().longitude,
+                    enemyMarker.getPosition().latitude, enemyMarker.getPosition().longitude) <= this.maxDistanceInKm) {
+                this.maGoogleMap.addMarker(enemyMarker);
+            }
         }
     }
 
@@ -238,11 +280,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return new ArrayList<>();
     }
 
-    private boolean isANumberOfOwnContacts(String number){
+    private boolean isANumberOfOwnContacts(String number) {
         if (number.contains("+")){
             return contactPhoneNumbers.contains(number);
         } else {
             return contactPhoneNumbers.contains(number) || contactPhoneNumbers.contains("+33"+number.substring(1));
         }
+    }
+
+    private void changeVisibilityMarkerInUnacceptedDistance() {
+        this.maGoogleMap.clear();
+
+        GeoLocationPosition userPosition = CurrentUser.getInstance().getGeoLocationPosition();
+
+        if(userPosition != null && userPosition.getLatitude() != 0.0 && userPosition.getLatitude() != 0.0){
+            LatLng userGeoPosition= new LatLng(userPosition.getLatitude(), userPosition.getLongitude());
+            MarkerOptions myMarkerOptions = new MarkerOptions().position(userGeoPosition).title("Moi");
+            this.maGoogleMap.addMarker(myMarkerOptions);
+            this.myMarker = myMarkerOptions;
+        }
+
+        this.setFriendsAndEnemiesInMap();
     }
 }
