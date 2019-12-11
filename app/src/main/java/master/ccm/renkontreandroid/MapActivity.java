@@ -7,7 +7,6 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -122,14 +121,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         phoneNumber = phoneNumber.replace(" ", "");
                         Boolean isRegisteredContact = isANumberOfOwnContacts(phoneNumber);
 
-                        Intent contactIntent = new Intent(MapActivity.this, ContactPhoneActivity.class);
-                        Bundle contactContent = new Bundle();
-                        contactContent.putString("phone", phoneNumber);
-                        contactContent.putString("identity", marker.getTitle());
-                        contactIntent.putExtra("bundleContact", contactContent);
-                        startActivity(contactIntent);
+                        if (isRegisteredContact){
+                            Intent contactIntent = new Intent(MapActivity.this, ContactPhoneActivity.class);
+                            Bundle contactContent = new Bundle();
+                            contactContent.putString("phone", phoneNumber);
+                            contactContent.putString("identity", marker.getTitle());
+                            contactIntent.putExtra("bundleContact", contactContent);
+                            startActivity(contactIntent);
+                        }
 
-                        // Toast.makeText(MapActivity.this, isRegisteredContact.toString(), Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(MapActivity.this, "Phone number not registered by user", Toast.LENGTH_SHORT).show();
                     }
