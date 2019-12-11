@@ -289,17 +289,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void changeVisibilityMarkerInUnacceptedDistance() {
-        this.maGoogleMap.clear();
+        if (this.maGoogleMap != null) {
+            this.maGoogleMap.clear();
 
-        GeoLocationPosition userPosition = CurrentUser.getInstance().getGeoLocationPosition();
+            GeoLocationPosition userPosition = CurrentUser.getInstance().getGeoLocationPosition();
 
-        if(userPosition != null && userPosition.getLatitude() != 0.0 && userPosition.getLatitude() != 0.0){
-            LatLng userGeoPosition= new LatLng(userPosition.getLatitude(), userPosition.getLongitude());
-            MarkerOptions myMarkerOptions = new MarkerOptions().position(userGeoPosition).title("Moi");
-            this.maGoogleMap.addMarker(myMarkerOptions);
-            this.myMarker = myMarkerOptions;
+            if(userPosition != null && userPosition.getLatitude() != 0.0 && userPosition.getLatitude() != 0.0){
+                LatLng userGeoPosition= new LatLng(userPosition.getLatitude(), userPosition.getLongitude());
+                MarkerOptions myMarkerOptions = new MarkerOptions().position(userGeoPosition).title("Moi");
+                this.maGoogleMap.addMarker(myMarkerOptions);
+                this.myMarker = myMarkerOptions;
+            }
+
+            this.setFriendsAndEnemiesInMap();
         }
-
-        this.setFriendsAndEnemiesInMap();
     }
 }
