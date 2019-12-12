@@ -477,6 +477,7 @@ public class UserDBManager {
 
         addFriendListeners();
         addEnemyListeners();
+        addCurrentUserListener();
     }
 
     private void addFriendListeners() {
@@ -531,6 +532,31 @@ public class UserDBManager {
                     });
             documentSnapshotListenerList.add(listenerRegistration);
         });
+    }
+
+    private void addCurrentUserListener() {
+        ListenerRegistration documentSnapshotListener = database.collection("User").document(CurrentUser.getInstance().getId())
+                .addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.d("ListenerProblem :", "Error getting document: " + CurrentUser.getInstance().getId());
+                        } else {
+                            if (documentSnapshot.get("geolocation.longitude") != null && documentSnapshot.get("geolocation.latitude") != null) {
+                                GeoLocationPosition geoLocationPosition = new GeoLocationPosition();
+                                geoLocationPosition.setLatitude(Double.valueOf(String.valueOf(documentSnapshot.get("geolocation.latitude"))));
+                                geoLocationPosition.setLongitude(Double.valueOf(String.valueOf(documentSnapshot.get("geolocation.longitude"))));
+                                if (documentSnapshot.get("geolocation.date") != null) {
+                                    geoLocationPosition.setDateRegistration(new Date(String.valueOf(documentSnapshot.get("geolocation.date"))));
+                                }
+                                CurrentUser.getInstance().setGeoLocationPosition(geoLocationPosition);
+                            }
+
+                            RefreshMapUiService.refreshMap();
+                        }
+                    }
+                });
+        documentSnapshotListenerList.add(documentSnapshotListener);
     }
 
 }
