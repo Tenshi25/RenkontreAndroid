@@ -2,7 +2,6 @@ package master.ccm.renkontreandroid.Manager;
 
 import android.location.Location;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -20,10 +19,7 @@ import com.google.firebase.firestore.Source;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.util.Date;
 
 import java.util.HashMap;
@@ -41,13 +37,13 @@ import master.ccm.renkontreandroid.Form_add_friends_enemy_activity;
 import master.ccm.renkontreandroid.Inscription_activity;
 import master.ccm.renkontreandroid.ListFriendsEnemy_activity;
 import master.ccm.renkontreandroid.Profile_activity;
+import master.ccm.renkontreandroid.services.NotificationPhoneService;
 import master.ccm.renkontreandroid.services.RefreshMapUiService;
 
 public class UserDBManager {
     private static FirebaseFirestore database = FirebaseFirestore.getInstance();
     private static Boolean userExist;
     private static List<ListenerRegistration> documentSnapshotListenerList;
-
 
     public void AddUser(final User newUser, final Inscription_activity context) {
         if (!userExist) {
@@ -302,6 +298,8 @@ public class UserDBManager {
                 } else {
                     Log.w("selectAll", "Error getting documents.", task.getException());
                 }
+
+                addAllListener();
             }
         });
 
@@ -472,6 +470,7 @@ public class UserDBManager {
         if (documentSnapshotListenerList == null) {
             documentSnapshotListenerList = new ArrayList<>();
         } else {
+            documentSnapshotListenerList.forEach(ListenerRegistration::remove);
             documentSnapshotListenerList.clear();
         }
 
@@ -500,6 +499,7 @@ public class UserDBManager {
                                 }
 
                                 RefreshMapUiService.refreshMap();
+                                NotificationPhoneService.notifyUserInProximity(user, true);
                             }
                         }
                     });
@@ -527,6 +527,7 @@ public class UserDBManager {
                                 }
 
                                 RefreshMapUiService.refreshMap();
+                                NotificationPhoneService.notifyUserInProximity(user, false);
                             }
                         }
                     });

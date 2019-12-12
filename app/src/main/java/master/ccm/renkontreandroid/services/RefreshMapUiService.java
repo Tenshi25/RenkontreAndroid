@@ -8,9 +8,8 @@ import androidx.annotation.Nullable;
 
 import master.ccm.renkontreandroid.Manager.UserDBManager;
 import master.ccm.renkontreandroid.MapActivity;
-import master.ccm.renkontreandroid.services.interfaces.RefreshMapService;
 
-public class RefreshMapUiService extends Service implements RefreshMapService {
+public class RefreshMapUiService extends Service {
 
     private static UserDBManager userDBManager;
     private static MapActivity mapActivity;
