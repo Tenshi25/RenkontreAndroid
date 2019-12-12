@@ -15,7 +15,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ContactPhoneActivity"></activity>
+        <service
+            android:name=".services.RefreshMapUiService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".ContactPhoneActivity" />
         <activity android:name=".Form_add_friends_enemy_activity" />
         <activity android:name=".ListFriendsEnemy_activity" />
 

@@ -36,6 +36,7 @@ import master.ccm.renkontreandroid.Form_add_friends_enemy_activity;
 import master.ccm.renkontreandroid.Inscription_activity;
 import master.ccm.renkontreandroid.ListFriendsEnemy_activity;
 import master.ccm.renkontreandroid.Profile_activity;
+import master.ccm.renkontreandroid.services.RefreshMapUiService;
 
 public class UserDBManager {
     private FirebaseFirestore database = FirebaseFirestore.getInstance();
@@ -458,6 +459,122 @@ public class UserDBManager {
             }
 
         });
+    }
+
+
+    public void selectAllFriendsEnemyRefresh() {
+
+        CurrentUser.getInstance().getEnemylist().clear();
+        CurrentUser.getInstance().getFriendslist().clear();
+
+
+        database.collection("User").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                Log.i("onCompleteSelectAllItemInventaireFini", "2 eme select");
+                if (task.isSuccessful()) {
+                    ArrayList<User> listUsersFriend = new ArrayList<>();
+                    ArrayList<User> listUsersEnemy = new ArrayList<>();
+                    List<DocumentSnapshot> result = task.getResult().getDocuments();
+                    for (DocumentSnapshot document : result) {
+                        for (String unIdUser : CurrentUser.getInstance().getFriendsIdlist()) {
+                            Log.i("unUser", "unUser : " + unIdUser);
+                            Log.i("unUser", "documentgetIdUser : " + document.getId());
+                            String iddoc = document.getId();
+                            if (unIdUser.equals(iddoc)) {
+                                Log.i("unUser", "dans le if identique : ");
+                                User newUser = new User();
+                                newUser.setId(document.getId());
+                                if (document.get("name") != null) {
+
+                                    newUser.setName(document.get("name").toString());
+                                }
+                                if (document.get("lastName") != null) {
+
+                                    newUser.setLastName(document.get("lastName").toString());
+                                }
+                                if (document.get("mail") != null) {
+
+                                    newUser.setMail(document.get("mail").toString());
+                                }
+                                if (document.get("phone") != null) {
+
+                                    newUser.setPhone(document.get("phone").toString());
+                                }
+
+                                if (document.get("geolocation.longitude") != null && document.get("geolocation.latitude") != null) {
+                                    GeoLocationPosition geoLocationPosition = new GeoLocationPosition();
+                                    geoLocationPosition.setLatitude(Double.valueOf(String.valueOf(document.get("geolocation.latitude"))));
+                                    geoLocationPosition.setLongitude(Double.valueOf(String.valueOf(document.get("geolocation.longitude"))));
+                                    if (document.get("geolocation.date") != null) {
+                                        geoLocationPosition.setDateRegistration(new Date(String.valueOf(document.get("geolocation.date"))));
+                                    }
+                                    newUser.setGeoLocationPosition(geoLocationPosition);
+                                }
+
+                                newUser.setFriendEnemy("Friend");
+                                listUsersFriend.add(newUser);
+                                Log.i("log", "User Mail:" + newUser.getMail());
+                                Log.d("log", document.getId() + " => " + document.getData());
+                                break;
+                            }
+
+                        }
+                        for (String unIdUser : CurrentUser.getInstance().getEnemyIdlist()) {
+                            Log.i("unUser", "unUser : " + unIdUser);
+                            Log.i("unUser", "documentgetIdUser : " + document.getId());
+                            String iddoc = document.getId();
+                            if (unIdUser.equals(iddoc)) {
+                                Log.i("unUser", "dans le if identique : ");
+                                User newUser = new User();
+                                newUser.setId(document.getId());
+                                if (document.get("name") != null) {
+
+                                    newUser.setName(document.get("name").toString());
+                                }
+                                if (document.get("lastName") != null) {
+
+                                    newUser.setLastName(document.get("lastName").toString());
+                                }
+                                if (document.get("mail") != null) {
+
+                                    newUser.setMail(document.get("mail").toString());
+                                }
+                                if (document.get("phone") != null) {
+
+                                    newUser.setPhone(document.get("phone").toString());
+                                }
+
+                                if (document.get("geolocation.longitude") != null && document.get("geolocation.latitude") != null) {
+                                    GeoLocationPosition geoLocationPosition = new GeoLocationPosition();
+                                    geoLocationPosition.setLatitude(Double.valueOf(String.valueOf(document.get("geolocation.latitude"))));
+                                    geoLocationPosition.setLongitude(Double.valueOf(String.valueOf(document.get("geolocation.longitude"))));
+                                    if (document.get("geolocation.date") != null) {
+                                        geoLocationPosition.setDateRegistration(new Date(String.valueOf(document.get("geolocation.date"))));
+                                    }
+                                    newUser.setGeoLocationPosition(geoLocationPosition);
+                                }
+
+                                newUser.setFriendEnemy("Enemy");
+                                listUsersEnemy.add(newUser);
+                                Log.i("log", "User Mail:" + newUser.getMail());
+                                Log.d("log", document.getId() + " => " + document.getData());
+                                break;
+                            }
+
+                        }
+                    }
+                    CurrentUser.getInstance().getFriendslist().addAll(listUsersFriend);
+                    CurrentUser.getInstance().getEnemylist().addAll(listUsersEnemy);
+
+                } else {
+                    Log.w("selectAll", "Error getting documents.", task.getException());
+                }
+
+                RefreshMapUiService.refreshMap();
+            }
+        });
+
     }
 
 }
