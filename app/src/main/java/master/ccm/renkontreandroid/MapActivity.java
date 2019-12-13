@@ -32,6 +32,8 @@ import master.ccm.renkontreandroid.Entity.CurrentUser;
 import master.ccm.renkontreandroid.Entity.GeoLocationPosition;
 import master.ccm.renkontreandroid.Entity.User;
 import master.ccm.renkontreandroid.services.GpsService;
+import master.ccm.renkontreandroid.services.NotificationPhoneService;
+import master.ccm.renkontreandroid.services.RefreshMapUiService;
 import master.ccm.renkontreandroid.utils.GpsUtils;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -99,6 +101,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onResume()
     {
         super.onResume();
+
+        RefreshMapUiService.setMapActivity(this);
+        Intent refreshMapIntent = new Intent(getApplicationContext(), RefreshMapUiService.class);
+        startService(refreshMapIntent);
+
+        Intent notificationIntent = new Intent(getApplicationContext(), NotificationPhoneService.class);
+        startService(notificationIntent);
     }
 
     @Override
@@ -288,7 +297,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    private void changeVisibilityMarkerInUnacceptedDistance() {
+    public void changeVisibilityMarkerInUnacceptedDistance() {
         if (this.maGoogleMap != null) {
             this.maGoogleMap.clear();
 
