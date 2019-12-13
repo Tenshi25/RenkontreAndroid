@@ -10,6 +10,9 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import master.ccm.renkontreandroid.Entity.CurrentUser;
+import master.ccm.renkontreandroid.utils.GpsUtils;
+
 public class Accueil_activity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
@@ -28,9 +31,9 @@ public class Accueil_activity extends AppCompatActivity {
             String name = user.getDisplayName();
             String email = user.getEmail();
             tv_mail.setText(email);
+
+            GpsUtils.getLastGpsKnownData(this);
         }
-
-
     }
     //vers la gestion du profile
     public void onClickProfile(View view){
