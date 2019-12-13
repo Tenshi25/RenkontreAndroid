@@ -2,16 +2,20 @@ package master.ccm.renkontreandroid.utils;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import master.ccm.renkontreandroid.Entity.CurrentUser;
 import master.ccm.renkontreandroid.Entity.GeoLocationPosition;
 
 import static androidx.core.content.ContextCompat.checkSelfPermission;
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class GpsUtils {
 
@@ -57,4 +61,30 @@ public class GpsUtils {
         }
     }
 
+    public static void needActiveLocalization(AppCompatActivity activity) {
+        final LocationManager manager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps(activity);
+
+        }
+    }
+
+    private static void buildAlertMessageNoGps(AppCompatActivity activity) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it (it will be necessary to share your position) ? If you refuse your localization can be incorrect in the map or only your friends and ennemies can appear on the map but not you")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        startActivity(activity, new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), null);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
 }
