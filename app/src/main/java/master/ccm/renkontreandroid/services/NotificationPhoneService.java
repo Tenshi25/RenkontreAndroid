@@ -27,6 +27,7 @@ public class NotificationPhoneService extends Service {
     private static final String CHANNEL_ID = "CHANNEL_ID";
     private static NotificationPhoneService staticContext;
     private static Map<String, String> mapNotificationId;
+    private static final int MAX_DISTANCE_METERS_PROXIMITY = 1000;
 
     public NotificationPhoneService() {
     }
@@ -46,7 +47,7 @@ public class NotificationPhoneService extends Service {
 
     public static void notifyUserInProximity(User user, boolean isAFriend) {
         int notificationId = getRandomNumberInRange(1, 999999999);
-        if (staticContext != null) {
+        if (staticContext != null && user.getGeoLocationPosition() != null && CurrentUser.getInstance().getGeoLocationPosition() != null) {
             String storedIndexNotification = mapNotificationId.get(user.getMail());
             if (storedIndexNotification != null) {
                 notificationId = Integer.valueOf(storedIndexNotification);
@@ -65,7 +66,9 @@ public class NotificationPhoneService extends Service {
             Double gpsDistanceInMeters = gpsDistanceInKm * 1000;
             int distance = gpsDistanceInMeters.intValue();
 
-            createNotificationToShow(user, isAFriend, notificationId, distance);
+            if (distance <= MAX_DISTANCE_METERS_PROXIMITY) {
+                createNotificationToShow(user, isAFriend, notificationId, distance);
+            }
         }
     }
 
