@@ -25,6 +25,7 @@ public class Accueil_activity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         tv_mail=findViewById(R.id.id_mail);
 
+        // verification OAuth
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // On test si l'utilisateur est connécté et son nom et son name
@@ -51,11 +52,10 @@ public class Accueil_activity extends AppCompatActivity {
 
     }
 
-
+    //vers la maps
     public void onClickMap(View view){
         Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
-        finish();
     }
 
 
