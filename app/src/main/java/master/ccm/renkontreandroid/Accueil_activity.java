@@ -36,23 +36,34 @@ public class Accueil_activity extends AppCompatActivity {
             GpsUtils.getLastGpsKnownData(this);
         }
     }
-    //vers la gestion du profile
+    /**
+     *
+     * @param view
+     * fonction lancer par un clique de l'utilisateur pour aller sur sa page de profil
+     */
     public void onClickProfile(View view){
         Intent intent = new Intent(this, Profile_activity.class);
         startActivity(intent);
         finish();
 
     }
-
-    //vers la gestion des amis et ennemis
+    /**
+     *
+     * @param view
+     * fonction lancer par un clique de l'utilisateur pour aller sur sa page de gestion
+     * des amis et ennemis
+     */
     public void onClickFriendsEnemyList(View view){
         Intent intent = new Intent(this, ListFriendsEnemy_activity.class);
         startActivity(intent);
         finish();
 
     }
-
-    //vers la maps
+    /**
+     *
+     * @param view
+     * fonction lancer par un clique de l'utilisateur pour aller sur sa page de la map
+     */
     public void onClickMap(View view){
         Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);

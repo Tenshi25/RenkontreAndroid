@@ -85,6 +85,7 @@ public class Inscription_activity extends AppCompatActivity {
         finish();
     }
 
+
     public void onClickSignUp(View view) {
         String email = champEmail.getText().toString();
         String password = champMDP.getText().toString();
