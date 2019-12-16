@@ -36,6 +36,9 @@ import master.ccm.renkontreandroid.services.NotificationPhoneService;
 import master.ccm.renkontreandroid.services.RefreshMapUiService;
 import master.ccm.renkontreandroid.utils.GpsUtils;
 
+/**
+ * Classe de notre activité affichant la carte
+ */
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap maGoogleMap;
@@ -46,6 +49,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private MarkerOptions myMarker;
 
 
+    /**
+     * Instancie à la création de la map les variables associés et lance le service de GPS utilisateur
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +104,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         startService(i);
     }
 
+    /**
+     * Lance les services de notifications et rafraichissement juste après création de l'activité
+     */
     @Override
     protected void onResume()
     {
@@ -110,12 +120,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         startService(notificationIntent);
     }
 
+    /**
+     * Code exécuté à la destruction de l'activité
+     */
     @Override
     protected void onDestroy()
     {
         super.onDestroy();
     }
 
+    /**
+     * Instancie la map avec nos settings et marqueurs si il y a besoin
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -182,6 +198,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setFriendsAndEnemiesInMap();
     }
 
+    /**
+     * Ajoute amis et ennemies sur la map si il y'a
+     */
     private void setFriendsAndEnemiesInMap() {
         Log.i("SizeFriendList","size :" + CurrentUser.getInstance().getFriendslist().size());
         Log.i("SizeEnemyList","size :"+ CurrentUser.getInstance().getEnemylist().size());
@@ -192,6 +211,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         CurrentUser.getInstance().getEnemylist().forEach(user -> addEnemyToMap(user));
     }
 
+    /**
+     * Ajoute marqueur d'ami sur la map, si ce dernier à des données de GPS (latitude, longitude)
+     */
     private void addFriendToMap(User friend) {
         this.userNumberMap.put(friend.getMail(), friend.getPhone());
 
@@ -226,6 +248,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Ajoute marqueur d'ennemi sur la map, si ce dernier à des données de GPS (latitude, longitude)
+     */
     private void addEnemyToMap(User enemy) {
         this.userNumberMap.put(enemy.getMail(), enemy.getPhone());
 
@@ -259,6 +284,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Récupére la liste des numéros de téléphone enregistrés dans le répertoire du téléphone
+     * @return ArrayList qui est la liste des numéros récupérés
+     */
     private ArrayList<String> getAllContactNumbers() {
         ContentResolver cr = this.getContentResolver();
         Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
@@ -289,6 +318,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return new ArrayList<>();
     }
 
+    /**
+     * Vérifie qu'un numéro de téléphone fait parti du répertoire téléphonique
+     * @param number
+     * @return boolean qui est le résultat
+     */
     private boolean isANumberOfOwnContacts(String number) {
         if (number.contains("+")){
             return contactPhoneNumbers.contains(number);
@@ -297,6 +331,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    /**
+     * Réinitialise les marqueurs de la carte et relance l'ajout des marqueurs
+     */
     public void changeVisibilityMarkerInUnacceptedDistance() {
         if (this.maGoogleMap != null) {
             this.maGoogleMap.clear();

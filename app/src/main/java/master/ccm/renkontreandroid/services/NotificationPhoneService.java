@@ -22,6 +22,9 @@ import master.ccm.renkontreandroid.Entity.User;
 import master.ccm.renkontreandroid.R;
 import master.ccm.renkontreandroid.utils.GpsUtils;
 
+/**
+ * Classe du service de notification (non lié et d'arrière plan) qui créer et envoi les notifications amis/ennemis
+ */
 public class NotificationPhoneService extends Service {
 
     private static final String CHANNEL_ID = "CHANNEL_ID";
@@ -29,22 +32,37 @@ public class NotificationPhoneService extends Service {
     private static Map<String, String> mapNotificationId;
     private static final int MAX_DISTANCE_METERS_PROXIMITY = 1000;
 
+    /**
+     * Constructeur par défaut
+     */
     public NotificationPhoneService() {
     }
 
+    /**
+     * Implemente la méthode onBind pour un service non lié en arrière plan
+     * @param intent
+     * @return Ibinder null car service non lié
+     */
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
 
+    /**
+     * Instancie les variable du service à la création
+     */
     @Override
     public void onCreate() {
         staticContext = this;
         mapNotificationId = new HashMap<>();
     }
 
-
+    /**
+     * Notifie si l'utilisateur ami/ennemi est proche de nous dans un rayon de 1000 mètres
+     * @param user l'utilisateur concerné
+     * @param isAFriend est une valeur booléenne qui dit si il s'agit d'un ami ou pas
+     */
     public static void notifyUserInProximity(User user, boolean isAFriend) {
         int notificationId = getRandomNumberInRange(1, 999999999);
         if (staticContext != null && user.getGeoLocationPosition() != null && CurrentUser.getInstance().getGeoLocationPosition() != null) {
@@ -73,6 +91,13 @@ public class NotificationPhoneService extends Service {
     }
 
 
+    /**
+     * Créer la notification
+     * @param user l'utilisateur concerné
+     * @param isAFriend est une valeur booléenne qui dit si il s'agit d'un ami ou pas
+     * @param notificationId est une valeur unique pour identifier la notification
+     * @param distance est la distance entre l'utilisateur courant et l'utilisateur ciblé
+     */
     private static void createNotificationToShow(User user, boolean isAFriend, int notificationId, int distance) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(staticContext, CHANNEL_ID)
                 .setSmallIcon(createNotificationSmallIcon())
@@ -103,6 +128,12 @@ public class NotificationPhoneService extends Service {
         notificationManager.notify(notificationId, builder.build());
     }
 
+    /**
+     * Créer le message la notification
+     * @param user l'utilisateur concerné
+     * @param distance est la distance entre l'utilisateur courant et l'utilisateur ciblé
+     * @return String qui est le message
+     */
     private static String createNotificationMessage(User user, int distance) {
         String notificationMessage = "";
 
@@ -121,6 +152,11 @@ public class NotificationPhoneService extends Service {
         return notificationMessage;
     }
 
+    /**
+     * Créer le titre de la notification
+     * @param isAFriend est une valeur booléenne qui dit si il s'agit d'un ami ou pas
+     * @return String qui est le titre
+     */
     private static String createNotificationTitle(boolean isAFriend) {
         if (isAFriend){
             return "Rencontrez votre ami";
@@ -129,6 +165,11 @@ public class NotificationPhoneService extends Service {
         return "Fuyez votre ennemi";
     }
 
+    /**
+     * Créer l'icône large de la notification
+     * @param isAFriend est une valeur booléenne qui dit si il s'agit d'un ami ou pas
+     * @return Bitmap qui est le Bitmap associé à la large icône
+     */
     private static Bitmap createNotificationLargeIcon(boolean isAFriend) {
         if (isAFriend){
             return BitmapFactory.decodeResource(staticContext.getResources(), R.drawable.amis);
@@ -137,10 +178,21 @@ public class NotificationPhoneService extends Service {
         return BitmapFactory.decodeResource(staticContext.getResources(), R.drawable.ennemi);
     }
 
+    /**
+     * Créer la petite icône de la notification
+     * @return int qui est la valeur entière associé à la petite icône
+     */
     private static int createNotificationSmallIcon() {
             return R.drawable.ic_notification_icon;
     }
 
+    /**
+     * Donne un numéro aléatoire qui va servir d'identifiant à la notifiaction
+     * Valeur comprise entre min et max
+     * @param min est une valeur minimale pour créer un identifiant de notification
+     * @param max est une valeur maximale pour créer un identifiant de notification
+     * @return int qui est la valeur entière généré
+     */
     private static int getRandomNumberInRange(int min, int max) {
         if (min >= max) {
             throw new IllegalArgumentException("max must be greater than min");

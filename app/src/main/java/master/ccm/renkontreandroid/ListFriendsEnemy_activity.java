@@ -21,6 +21,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe de l'activité qui permet de voir ses amis et ennemis
+ */
 public class ListFriendsEnemy_activity extends AppCompatActivity {
 
     private ListView listView;
@@ -30,6 +33,9 @@ public class ListFriendsEnemy_activity extends AppCompatActivity {
     private User[] tabUser;
 
 
+    /**
+     * Instancie les variable de l'activité
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +57,11 @@ public class ListFriendsEnemy_activity extends AppCompatActivity {
 
         UserDBManager userDBManager =new UserDBManager();
         userDBManager.selectAllFriendsEnemy(this);
-
-
     }
+
+    /**
+     * Rempli la liste avec les amis et ennemis possédés
+     */
     public void RemplirListView(ArrayList<User> p_userList) {
 
         Log.i("logNomTailleListeUser", "taille : " + p_userList.size());
@@ -100,17 +108,25 @@ public class ListFriendsEnemy_activity extends AppCompatActivity {
         listView.setAdapter(monArrayAdapter);
 
     }
+
+    /**
+     * lancer l'activité qui permet l'ajout d'amis et d'ennemis
+     */
     public void onClickAddFriendsEnemy(View view) {
         Intent intent = new Intent(this, Form_add_friends_enemy_activity.class);
         startActivity(intent);
         finish();
     }
 
+    /**
+     * Retour à l'activité précédente
+     */
     public void onClickReturn(View view) {
         Intent intent = new Intent(this, Accueil_activity.class);
         startActivity(intent);
         finish();
     }
+
     public void OnUserClick(User p_user) {
         Toast.makeText(this,"user : " + p_user.getMail(),Toast.LENGTH_SHORT).show();
     }
@@ -137,6 +153,10 @@ public class ListFriendsEnemy_activity extends AppCompatActivity {
         }
 
     }
+
+    /**
+     * Supprimer lien avec l'utilisateur ami/ennemi
+     */
     public void onClickDeleteLink(View view) {
         View parentRow = (View) view.getParent();
         ListView listView = (ListView) parentRow.getParent();

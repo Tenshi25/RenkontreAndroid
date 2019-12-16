@@ -18,6 +18,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * Classe de l'activité qui permet de s'inscrire
+ */
 public class Inscription_activity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -41,6 +44,9 @@ public class Inscription_activity extends AppCompatActivity {
         //updateUI(currentUser);
     }
 
+    /**
+     * Mettre à jour l'UI de l'activité
+     */
     private void updateUI(FirebaseUser currentUser) {
         if (currentUser != null) {
             // Name, email address, and profile photo Url
@@ -54,6 +60,10 @@ public class Inscription_activity extends AppCompatActivity {
         }
 
     }
+
+    /**
+     * Réaliser l'enregistrement de l'utilisateur sur Firebase.
+     */
     private void inscriptionFirebase(String email,String password)
     {
 
@@ -79,25 +89,36 @@ public class Inscription_activity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Retourner à l'activité précédente
+     */
     public void onClickRetour(View view) {
         Intent intent = new Intent(this, Connexion_activity.class);
         startActivity(intent);
         finish();
     }
 
-
+    /**
+     * S'enregistrer sur l'application en tant qu'utilisateur avec mail et mot de passe
+     */
     public void onClickSignUp(View view) {
         String email = champEmail.getText().toString();
         String password = champMDP.getText().toString();
         inscriptionFirebase(email,password);
     }
 
+    /**
+     * En cas de succès d'enregistrement
+     */
     public void RegisterSucess(String id, String name) {
         Intent intent = new Intent(this, Accueil_activity.class);
         startActivity(intent);
         finish();
     }
 
+    /**
+     * En cas d'échec d'enregistrement
+     */
     public void RegistertFail() {
     }
 }

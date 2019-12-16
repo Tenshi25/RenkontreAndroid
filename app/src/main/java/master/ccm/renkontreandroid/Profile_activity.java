@@ -11,11 +11,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+ * Classe de notre activité profil de l'utilisateur
+ */
 public class Profile_activity extends AppCompatActivity {
     private EditText et_name;
     private EditText et_lastname;
     private EditText et_phone;
 
+    /**
+     * Instancie les variables à la création de l'activité
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,12 +41,20 @@ public class Profile_activity extends AppCompatActivity {
             et_phone.setText(CurrentUser.getInstance().getPhone());
         }
     }
+
+    /**
+     * Retourner sur l'activité précédente
+     */
     public void onClickReturn(View view){
         Intent intent = new Intent(this, Accueil_activity.class);
         startActivity(intent);
         finish();
 
     }
+
+    /**
+     * Mettre à jour les informations de son profil
+     */
     public void onClickUpdate(View view){
         User userUpdate = new User();
 
@@ -58,6 +72,10 @@ public class Profile_activity extends AppCompatActivity {
         userDBManager.updateUser(userUpdate,this);
 
     }
+
+    /**
+     * Générer un message en cas de succès
+     */
     public void updateUserSuccess() {
         Toast.makeText(this, "Votre profil à été mis à jour",
                 Toast.LENGTH_SHORT).show();
@@ -65,6 +83,9 @@ public class Profile_activity extends AppCompatActivity {
 
     }
 
+    /**
+     * Générer un message en cas de d'échec
+     */
     public void updateUserFailed() {
         Toast.makeText(this, "ERREUR ! Votre profil n'a pas été mis à jour",
                 Toast.LENGTH_SHORT).show();
