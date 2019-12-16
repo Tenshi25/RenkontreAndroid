@@ -1,5 +1,17 @@
 # RenkontreAndroid
-Projet CCM2 en Binôme 
+Projet CCM2 en Binôme
+
+**Conseils :**
+
+* Penser à accepter l'ensemble des permissions au démarrage de l'application pour éviter des problèmes.
+
+**Contributeurs**	
+* Kévin CARDON 
+* Rémi URBANIEC
+
+**Sujet du projet**	
+
+Vous allez développer une « petite » application Android qui permettra à ses utilisateurs de disposer d’une liste d’amis et d’une liste « d’ennemis ». Toutes ces personnes devront apparaitre sur une carte en fonction de leur localisation actuelle et la carte devra évoluer en temps-réel en fonction des déplacements des uns et des autres. L'idée derrière cette application est qu'elle devrait permettre à deux utilisateurs de constater en consultant la Map qu’ils sont proches l'un de l'autre, pour, s’ils le décident, procéder à un rapprochement s’ils sont amis ou à un éloignement s’ils sont « ennemis ». Les informations de géolocalisation seront partagées en « temps-réel » via la technologie FireBase et sera visualisée via des Marqueurs apparaissant sur des Google Maps. Votre application devra être conçue de façon suffisamment modulaire afin de permettre un « changement aisé » de technologie(s), par exemple, pour passer de FireBase à une autre technologie ou, par exemple, pour passer de GooleMap à OpenStreepMap.
 
 
 **Liste des options acceptés et refusés**	
