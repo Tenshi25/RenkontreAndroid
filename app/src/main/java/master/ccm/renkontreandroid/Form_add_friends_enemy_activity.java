@@ -44,7 +44,12 @@ public class Form_add_friends_enemy_activity  extends AppCompatActivity implemen
         newFriendEnemy.setMail(et_friendEnemyMail.getText().toString());
         */
         //userDBManager.selectBeforeUpdateUserFriendsEnemy(newFriendEnemy,friendOrEnemy,this);
-        userDBManager.BeforeAddUserLink(et_friendEnemyMail.getText().toString(),friendOrEnemy,this);
+        if(et_friendEnemyMail.getText().toString().equals(CurrentUser.getInstance().getMail()))
+        {
+            Toast.makeText(this,"Petit(e) malin(e) ! On ne peut pas s'ajouter soi-même",Toast.LENGTH_SHORT).show();
+        }else {
+            userDBManager.BeforeAddUserLink(et_friendEnemyMail.getText().toString(), friendOrEnemy, this);
+        }
     }
 
     public void onClickReturn(View view) {
