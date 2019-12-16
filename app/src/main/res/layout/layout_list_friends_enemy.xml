@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
+        android:backgroundTint="#D7336CE0"
         android:onClick="onClickAddFriendsEnemy"
         android:text="@string/bt_add_friend_enemie"
         app:layout_constraintBottom_toBottomOf="parent"

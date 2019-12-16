@@ -6,8 +6,8 @@
 
     <TextView
         android:id="@+id/tv_mail_list_friend_enemy"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/Et_mail" />
 
@@ -20,10 +20,12 @@
 
     <ImageButton
         android:id="@+id/bt_item_delete"
-        android:layout_width="34dp"
+        android:layout_width="10dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="2"
+        android:backgroundTint="#B81A1A"
         android:onClick="onClickDeleteLink"
+        android:tint="#00C52F2F"
         app:srcCompat="@android:drawable/ic_menu_delete" />
 
 </LinearLayout>
