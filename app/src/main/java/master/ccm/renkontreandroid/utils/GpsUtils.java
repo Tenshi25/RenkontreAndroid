@@ -36,7 +36,7 @@ public class GpsUtils {
      * @param longitude1 longitude de l'utilisateur courant
      * @param latitude2 latitude de l'utilisateur ami/ennemi
      * @param longitude2 longitude de l'utilisateur ami/ennemi
-     * @return double pour la distance obtenu
+     * @return double pour la distance obtenu en kilomètres
      */
     public static double distanceInKmBetweenTwoMarker(double latitude1, double longitude1, double latitude2, double longitude2) {
         double latDistance = Math.toRadians(latitude2 - latitude1);
