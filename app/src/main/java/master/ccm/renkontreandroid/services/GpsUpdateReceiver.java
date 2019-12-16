@@ -11,8 +11,14 @@ import android.widget.Toast;
 import master.ccm.renkontreandroid.Manager.UserDBManager;
 import master.ccm.renkontreandroid.MapActivity;
 
+/**
+ * Classe du BroadcastReceiver du GPS qui trace la localisation de l'utilisateur
+ */
 public class GpsUpdateReceiver extends BroadcastReceiver {
 
+    /**
+     * A chaque changement de données GPS, modifie la données en base de données de l'utilisateur
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         Location location = (Location)intent.getParcelableExtra(LocationManager.KEY_LOCATION_CHANGED);
