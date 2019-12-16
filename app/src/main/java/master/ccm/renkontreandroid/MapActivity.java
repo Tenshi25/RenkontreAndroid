@@ -35,6 +35,7 @@ import master.ccm.renkontreandroid.services.GpsService;
 import master.ccm.renkontreandroid.services.NotificationPhoneService;
 import master.ccm.renkontreandroid.services.RefreshMapUiService;
 import master.ccm.renkontreandroid.utils.GpsUtils;
+import master.ccm.renkontreandroid.utils.PermissionUtils;
 
 /**
  * Classe de notre activité affichant la carte
@@ -58,15 +59,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        ActivityCompat.requestPermissions(this, new String[]{
-                        Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION,
-                        Manifest.permission.INTERNET,
-                        Manifest.permission.READ_CONTACTS,
-                        Manifest.permission.CALL_PHONE
-
-                },
-                123);
+        PermissionUtils.askAllPermission(this);
 
         this.userNumberMap = new HashMap<>();
         this.maxDistanceInKm = 9999999.99;
