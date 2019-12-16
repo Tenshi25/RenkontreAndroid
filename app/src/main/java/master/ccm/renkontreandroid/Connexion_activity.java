@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import master.ccm.renkontreandroid.Entity.User;
 import master.ccm.renkontreandroid.Manager.UserDBManager;
 import master.ccm.renkontreandroid.utils.GpsUtils;
+import master.ccm.renkontreandroid.utils.PermissionUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,6 +35,8 @@ public class Connexion_activity extends AppCompatActivity {
 
         // initialisation de la variable Auth
         GpsUtils.needActiveLocalization(this);
+        PermissionUtils.askAllPermission(this);
+
         mAuth = FirebaseAuth.getInstance();
 
         champEmail=findViewById(R.id.Et_mail_connexion);
