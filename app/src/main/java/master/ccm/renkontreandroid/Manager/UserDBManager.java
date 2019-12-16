@@ -45,6 +45,12 @@ public class UserDBManager {
     private static Boolean userExist;
     private static List<ListenerRegistration> documentSnapshotListenerList;
 
+    /**
+     *
+     * @param newUser,context
+     * cette fonction permet d'ajouter un Utilisateur dans la base de données firebase
+     * pour eviter les erreurs on set les variable à null et on ajoute ensuite
+     */
     public void AddUser(final User newUser, final Inscription_activity context) {
         if (!userExist) {
             String lastName = null;
@@ -86,7 +92,11 @@ public class UserDBManager {
 
 
     }
-
+    /**
+     *
+     * @param newUser,context
+     * fonction qui permet de verifier si le login n'est pas déjà pris par un autre utilisateur
+     */
     public void VerifUserExistBeforeInsert(final User newUser, final Inscription_activity context) {
         userExist = false;
         database.collection("User").whereEqualTo("mail", newUser.getMail()).get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -94,7 +104,7 @@ public class UserDBManager {
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.getResult().size() >= 1) {
                     Log.i("task.getResult()", "" + task.getResult().size());
-                    Log.i("selectUtilisateur", "Le nom existe déjà");
+                    Log.i("selectUtilisateur", "Le login existe déjà");
                     UserDBManager.setUserExist(true);
                     AddUser(newUser, context);
 
@@ -108,7 +118,11 @@ public class UserDBManager {
 
 
     }
-
+    /**
+     *
+     * @param user,context
+     * fonction qui permet de récupéré les données de l'utilisateur lorsqu'il se connecte
+     */
     public void ConnectUser(final User user, final Connexion_activity context) {
 
         database.collection("User").whereEqualTo("mail", user.getMail()).get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -158,7 +172,11 @@ public class UserDBManager {
         UserDBManager.userExist = p_userExist;
 
     }
-
+    /**
+     *
+     * @param newUser,context
+     * cette fonction permet de mettre à jour l'utilisateur en base de données
+     */
     public void updateUser(User newUser, final Profile_activity context) {
         DocumentReference userRef = database.collection("User").document(CurrentUser.getInstance().getId());
         Log.i("updateUser", "" + CurrentUser.getInstance().getId() + " " + newUser.getName() + " / " + newUser.getLastName() + " / " + newUser.getPhone() + " / ");
@@ -183,6 +201,11 @@ public class UserDBManager {
         });
     }
 
+    /**
+     *
+     * @param context
+     * fonction qui permet de récupéré les amis et ennemies de l'utilisateur connecté
+     */
     public void selectAllFriendsEnemy(final ListFriendsEnemy_activity context) {
 
         CurrentUser.getInstance().getEnemylist().clear();
@@ -304,8 +327,13 @@ public class UserDBManager {
         });
 
 
-    }
 
+    }
+    /**
+     *
+     * @param mailUserFriendEnemy,friendOrEnemy,context
+     * cette fonction permet de verifier si l'utilisateur existe et de récupéré son id
+     */
     public void BeforeAddUserLink(final String mailUserFriendEnemy, final String friendOrEnemy, final Form_add_friends_enemy_activity context) {
         database.collection("User").whereEqualTo("mail", mailUserFriendEnemy).get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -324,7 +352,11 @@ public class UserDBManager {
             }
         });
     }
-
+    /**
+     *
+     * @param idUserFriendEnemy,friendOrEnemy,context
+     * cette fonction permet de verifier que le lien n'existe pas avant de le rajouter
+     */
     public void verifUserLinkExists(final String idUserFriendEnemy, final String friendOrEnemy, final Form_add_friends_enemy_activity context) {
         database.collection("LinkUser").whereEqualTo("idUserA", CurrentUser.getInstance().getId()).whereEqualTo("idUserB", idUserFriendEnemy).get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -341,7 +373,11 @@ public class UserDBManager {
             }
         });
     }
-
+    /**
+     *
+     * @param idUserFriendEnemy,friendOrEnemy,context
+     * cette fonction permet d'ajouter le lien entre les deux utilisateur
+     */
     public void AddUserLink(String idUserFriendEnemy, String friendOrEnemy, final Form_add_friends_enemy_activity context) {
 
 
@@ -362,7 +398,11 @@ public class UserDBManager {
             }
         });
     }
-
+    /**
+     *
+     * @param idUserFriendEnemy,context
+     * cette fonction permet de verifier si le lien existe avant de le supprimer
+     */
     public void selectLinkBeforeDelete(final String idUserFriendEnemy, final ListFriendsEnemy_activity context) {
         database.collection("LinkUser").whereEqualTo("idUserA", CurrentUser.getInstance().getId()).whereEqualTo("idUserB", idUserFriendEnemy).get(Source.DEFAULT).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -382,7 +422,10 @@ public class UserDBManager {
             }
         });
     }
-
+    /**
+     *
+     * cette fonction permet de récuperer tous les ids de tous les ennemies et amis
+     */
     public void selectAllFriendsEnemyID() {
 
         // recuperation de tous les id des amis et enemie
@@ -413,7 +456,11 @@ public class UserDBManager {
 
 
     }
-
+    /**
+     *
+     * @param idLink
+     * cette fonction de supprimer un lien avec l'id d'un lien
+     */
     private void deleteLink(String idLink) {
         database.collection("LinkUser").document(idLink)
                 .delete()
@@ -431,7 +478,6 @@ public class UserDBManager {
                 });
 
     }
-
 
     public void updateUserToAddPositionService(Location location) {
         final CurrentUser currentUser = CurrentUser.getInstance();

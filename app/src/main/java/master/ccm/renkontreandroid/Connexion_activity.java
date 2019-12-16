@@ -60,6 +60,12 @@ public class Connexion_activity extends AppCompatActivity {
         }
 
     }
+    /**
+     *
+     * @param email,password
+     * fonction de connexion firebase avec verification que les paramètre ne sont pas vide
+
+     */
     private void connexionFirebase(String email,String password){
         if(email.length()!=0   )
         {
@@ -93,12 +99,21 @@ public class Connexion_activity extends AppCompatActivity {
 
 
     }
+    /**
+     * @param view
+     * fonction lancer lorsque que l'utilisateur clique sur l'inscription
+     */
     public void onClickInscription(View view) {
         Intent intent = new Intent(this, Inscription_activity.class);
         startActivity(intent);
         finish();
     }
-
+    /**
+     *
+     * @param view
+     * fonction lancer lorsque que l'utilisateur clique sur le bouton sign in
+     * on récupère les chaines des champs email et password du formulaire
+     */
     public void onClickSignIn(View view) {
         String email = champEmail.getText().toString();
         String password = champMDP.getText().toString();
@@ -107,7 +122,11 @@ public class Connexion_activity extends AppCompatActivity {
 
     public void ConnectionFailed() {
     }
-
+    /**
+     * @param id,username
+     * fonction lancer lorsque la connexion firebase est un succès
+     *
+     */
     public void ConnectSucess(String id, String username) {
         Intent intent = new Intent(this, Accueil_activity.class);
         Toast.makeText(Connexion_activity.this, "Bienvenue"+username,

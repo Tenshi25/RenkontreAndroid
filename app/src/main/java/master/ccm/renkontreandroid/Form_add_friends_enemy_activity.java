@@ -38,12 +38,14 @@ public class Form_add_friends_enemy_activity  extends AppCompatActivity implemen
         spinner.setOnItemSelectedListener(this);
 
     }
+    /**
+     * @param view
+     * fonction lancer lorsque l'utilisateur clique sur le bouton ajouter.
+     * Elle permet d'ajouter un nouvelle utilisateur avec verification qu'il n'est pas lui-même
+     *
+     */
     public void onClickAdd(View view) {
         UserDBManager userDBManager = new UserDBManager();
-        /*User newFriendEnemy = new User();
-        newFriendEnemy.setMail(et_friendEnemyMail.getText().toString());
-        */
-        //userDBManager.selectBeforeUpdateUserFriendsEnemy(newFriendEnemy,friendOrEnemy,this);
         if(et_friendEnemyMail.getText().toString().equals(CurrentUser.getInstance().getMail()))
         {
             Toast.makeText(this,"Petit(e) malin(e) ! On ne peut pas s'ajouter soi-même",Toast.LENGTH_SHORT).show();
@@ -51,21 +53,31 @@ public class Form_add_friends_enemy_activity  extends AppCompatActivity implemen
             userDBManager.BeforeAddUserLink(et_friendEnemyMail.getText().toString(), friendOrEnemy, this);
         }
     }
-
+    /**
+     * @param view
+     * fonction lancer lorsque l'utilisateur clique sur le bouton retour
+     * elle permet de revenir a la liste des amis et enemies
+     */
     public void onClickReturn(View view) {
         Intent intent = new Intent(this, ListFriendsEnemy_activity.class);
         startActivity(intent);
         finish();
     }
 
-
+    /**
+     * Elle permet d'informer un utilisateur que sa liste à été mise à jour
+     *
+     */
     public void updateUserFriendsEnemySuccess() {
         Toast.makeText(this,"votre liste à été mise à jour",Toast.LENGTH_LONG).show();
     }
-
+    /**
+     * Elle permet d'informer un utilisateur que la mise à jour de sa liste a echoué
+     *
+     */
     public void updateUserFriendsEnemyFailed() {
+        Toast.makeText(this,"votre liste n'à pas pu être mise à jour",Toast.LENGTH_LONG).show();
     }
-
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -77,7 +89,10 @@ public class Form_add_friends_enemy_activity  extends AppCompatActivity implemen
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
+    /**
+     * Elle permet d'informer un utilisateur que l'utilisateur n'est pas inscrit sur l'apprication
+     *
+     */
     public void userNotExist() {
         Toast.makeText(this,"L'utilisateur n'est pas inscrit",Toast.LENGTH_SHORT).show();
     }
@@ -86,8 +101,12 @@ public class Form_add_friends_enemy_activity  extends AppCompatActivity implemen
 
         Toast.makeText(this,"L'utilisateur est inscrit",Toast.LENGTH_SHORT).show();
     }
-
+    /**
+     * fonction lancer lorsque l'utilisateur clique sur le bouton ajouter.
+     * Elle permet d'ajouter un nouvelle utilisateur
+     *
+     */
     public void AddLinkSucess() {
-        Toast.makeText(this,"votre liste à été mise à jour",Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Votre liste à été mise à jour",Toast.LENGTH_LONG).show();
     }
 }
