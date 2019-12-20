@@ -1,9 +1,11 @@
 package master.ccm.renkontreandroid.utils;
 
 import android.Manifest;
+import android.content.pm.PackageManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 /**
  * Classe de notre utilitaire pour les permissions
@@ -29,5 +31,22 @@ public class PermissionUtils {
 
                 },
                 123);
+    }
+
+    /**
+     * Demander l'ensemble des permissions et renvoie un booléen pour bloquer action si besoin
+     */
+    public static boolean askAllPermissionBlockedAction(AppCompatActivity activity) {
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+        ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED  ||
+        ContextCompat.checkSelfPermission(activity, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED  ||
+        ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED  ||
+        ContextCompat.checkSelfPermission(activity, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
+        ) {
+            askAllPermission(activity);
+            return false;
+        }
+
+        return true;
     }
 }
