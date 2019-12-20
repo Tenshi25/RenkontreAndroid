@@ -33,6 +33,9 @@ public class PermissionUtils {
                 123);
     }
 
+    /**
+     * Demander l'ensemble des permissions et renvoie un booléen pour bloquer action si besoin
+     */
     public static boolean askAllPermissionBlockedAction(AppCompatActivity activity) {
         if (ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
         ContextCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED  ||
