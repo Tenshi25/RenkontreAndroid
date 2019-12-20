@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import master.ccm.renkontreandroid.Entity.CurrentUser;
 import master.ccm.renkontreandroid.utils.GpsUtils;
+import master.ccm.renkontreandroid.utils.PermissionUtils;
 
 public class Accueil_activity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -65,8 +66,10 @@ public class Accueil_activity extends AppCompatActivity {
      * fonction lancer par un clique de l'utilisateur pour aller sur sa page de la map
      */
     public void onClickMap(View view){
-        Intent intent = new Intent(this, MapActivity.class);
-        startActivity(intent);
+        if (PermissionUtils.askAllPermissionBlockedAction(this)) {
+            Intent intent = new Intent(this, MapActivity.class);
+            startActivity(intent);
+        }
     }
 
 
