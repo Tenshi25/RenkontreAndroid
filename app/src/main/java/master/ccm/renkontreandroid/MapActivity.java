@@ -17,6 +17,7 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -130,7 +131,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
 
         this.maGoogleMap = googleMap;
-        // this.maGoogleMap.setMinZoomPreference(12);
+        this.maGoogleMap.setMinZoomPreference(5);
 
         GeoLocationPosition userPosition = CurrentUser.getInstance().getGeoLocationPosition();
 
@@ -141,6 +142,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             googleMap.addMarker(myMarkerOptions);
             this.myMarker = myMarkerOptions;
         }
+
+        CameraUpdate zoom=CameraUpdateFactory.zoomTo(18);
+        this.maGoogleMap.animateCamera(zoom);
 
         this.maGoogleMap.getUiSettings().setZoomControlsEnabled(true);
         this.maGoogleMap.getUiSettings().setCompassEnabled(true);
