@@ -1,6 +1,8 @@
 # RenkontreAndroid
 Projet CCM2 en Binôme
 
+Zip file : https://drive.google.com/open?id=18MglDxvi-Gyd2jW2YP5sqytzHTMDjCjx
+
 **Conseils :**
 
 * Penser à accepter l'ensemble des permissions au démarrage de l'application pour éviter des problèmes.
