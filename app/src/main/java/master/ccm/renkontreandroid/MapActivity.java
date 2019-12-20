@@ -237,6 +237,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             if (GpsUtils.distanceInKmBetweenTwoMarker(myMarker.getPosition().latitude, myMarker.getPosition().longitude,
                     friendMarker.getPosition().latitude, friendMarker.getPosition().longitude) <= this.maxDistanceInKm) {
+                friendMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.amiicone) );
                 this.maGoogleMap.addMarker(friendMarker);
             }
         }
@@ -273,6 +274,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             if (GpsUtils.distanceInKmBetweenTwoMarker(myMarker.getPosition().latitude, myMarker.getPosition().longitude,
                     enemyMarker.getPosition().latitude, enemyMarker.getPosition().longitude) <= this.maxDistanceInKm) {
+                enemyMarker.icon(BitmapDescriptorFactory.fromResource(R.drawable.enemieicone) );
                 this.maGoogleMap.addMarker(enemyMarker);
             }
         }
