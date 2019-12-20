@@ -7,6 +7,8 @@ import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.Editable;
@@ -60,7 +62,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
 
         PermissionUtils.askAllPermission(this);
-
         this.userNumberMap = new HashMap<>();
         this.maxDistanceInKm = 9999999.99;
         this.editTextMaxDistanceInKm = findViewById(R.id.id_map_value_max_distance);

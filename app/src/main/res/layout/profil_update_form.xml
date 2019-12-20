@@ -40,13 +40,17 @@
         android:id="@+id/bt_update_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#2E97D9"
         android:onClick="onClickUpdate"
-        android:text="@string/bt_update" />
+        android:text="@string/bt_update"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
     <Button
         android:id="@+id/bt_retour_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#2E97D9"
         android:onClick="onClickReturn"
-        android:text="@string/bt_return" />
+        android:text="@string/bt_return"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
 </LinearLayout>

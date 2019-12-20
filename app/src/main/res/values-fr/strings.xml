@@ -14,4 +14,12 @@
     <string name="bt_update">Comfirmer la modification</string>
     <string name="bt_to_profile">Profil</string>
     <string name="bt_signUp">S\'inscrire</string>
+    <string name="Titre_form_add_friend_enemy">Formulaire d\'ajout d\'amis ou d\'ennemi</string>
+    <string name="Tv_show_distance">Distance autour (en Km)</string>
+    <string name="bt_List_friends_ennemy">Modifier amis ennemi</string>
+    <string name="bt_add_friend_enemie">+</string>
+    <string name="bt_add_friend_enemy">Ajouter</string>
+    <string name="bt_to_map">Map</string>
+    <string name="title_Menu">Menu Principal</string>
+    <string name="title_form_profil">Votre Profile</string>
 </resources>

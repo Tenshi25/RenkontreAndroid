@@ -30,13 +30,17 @@
         android:id="@+id/bt_add_form_friends_enemy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#2E97D9"
         android:onClick="onClickAdd"
-        android:text="@string/bt_add_friend_enemy" />
+        android:text="@string/bt_add_friend_enemy"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
     <Button
         android:id="@+id/bt_return_form_add_friend_enemy"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="#2E97D9"
         android:onClick="onClickReturn"
-        android:text="@string/bt_return" />
+        android:text="@string/bt_return"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
 </LinearLayout>
