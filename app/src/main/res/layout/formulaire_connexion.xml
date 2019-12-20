@@ -37,14 +37,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:backgroundTint="#2E97D9"
         android:onClick="onClickSignIn"
-        android:text="@string/bt_signIn" />
+        android:text="@string/bt_signIn"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
     <Button
         android:id="@+id/bt_retour_signIn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:backgroundTint="#2E97D9"
         android:onClick="onClickInscription"
-        android:text="@string/bt_inscription" />
+        android:text="@string/bt_inscription"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
 </LinearLayout>
