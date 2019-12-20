@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">RenkontreAndroid</string>
+    <string name="Et_mail">E-mail</string>
+    <string name="Et_password">password</string>
+    <string name="Titre_inscription">Sign Up</string>
+    <string name="bt_signUp">Sign up</string>
+    <string name="bt_return">return</string>
+    <string name="Titre_connexion">Sign in</string>
+    <string name="bt_inscription">sign Up</string>
+    <string name="bt_signIn">Sign In</string>
+    <string name="Et_lastname">lastname</string>
+    <string name="Et_name">name</string>
+    <string name="Et_phone">phone</string>
+    <string name="bt_update">Update</string>
+    <string name="title_Menu">Main Menu</string>
+    <string name="bt_to_profile">Profile</string>
+    <string name="title_form_profil">Your profile</string>
+
+    <string name="bt_add_friend_enemie">+</string>
+    <string name="bt_List_friends_ennemy">Edit friends / enemy List</string>
+    <string name="Titre_form_add_friend_enemy">Form add friend or enemy</string>
+    <string name="bt_add_friend_enemy">Add</string>
+
+    <string name="bt_to_map">Map</string>
+    <string name="Tv_show_distance">Distance around (in Km)</string>
+
 </resources>

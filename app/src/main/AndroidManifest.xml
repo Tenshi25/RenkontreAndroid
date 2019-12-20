@@ -1,5 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="master.ccm.renkontreandroid">
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -7,5 +14,45 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" />
+        android:theme="@style/AppTheme">
+        <service
+            android:name=".services.NotificationPhoneService"
+            android:enabled="true"
+            android:exported="true"></service>
+        <service
+            android:name=".services.RefreshMapUiService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".ContactPhoneActivity" />
+        <activity android:name=".Form_add_friends_enemy_activity" />
+        <activity android:name=".ListFriendsEnemy_activity" />
+
+        <receiver
+            android:name=".services.GpsUpdateReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <service
+            android:name=".services.GpsService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".Profile_activity" />
+        <activity android:name=".Accueil_activity" />
+        <activity android:name=".MapActivity" />
+        <activity android:name=".Inscription_activity" />
+        <activity android:name=".Connexion_activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAI9oxnJkiZxmBLxUBUfcCynVGIqO7y4ao" />
+    </application>
+
 </manifest>

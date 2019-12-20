@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_Menu"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/bt_listFriendsEnemy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#2E97D9"
+        android:onClick="onClickFriendsEnemyList"
+        android:text="@string/bt_List_friends_ennemy"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+    <Button
+        android:id="@+id/bt_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#2E97D9"
+        android:onClick="onClickProfile"
+        android:text="@string/bt_to_profile"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+
+    <Button
+        android:id="@+id/bt_map"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#2E97D9"
+        android:onClick="onClickMap"
+        android:text="@string/bt_to_map"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
+
+</LinearLayout>
